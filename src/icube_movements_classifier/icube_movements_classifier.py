@@ -86,8 +86,10 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.UNKNOWN:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
+                self.on_pose()
             else:
                 self.icube_state = MovementState.GRABBED
+                self.on_grab()
 
         np_acc = np.array(accelerometer)
         if self.init_acc is None:
