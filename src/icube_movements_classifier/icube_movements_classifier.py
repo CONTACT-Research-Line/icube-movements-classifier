@@ -95,15 +95,14 @@ class MovementsDetector(BaseHandler):
 
         self.delta_movement = np.linalg.norm(accelerometer - self.init_acc)
         if self.delta_movement > 0:
-            self.icube_state = MovementState.MOVED
             self.on_move(self.delta_movement)
 
-        if self.icube_state != MovementState.POSED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
 
-        if self.icube_state in [MovementState.GRABBED, MovementState.MOVED]:
+        if self.icube_state == MovementState.GRABBED:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
