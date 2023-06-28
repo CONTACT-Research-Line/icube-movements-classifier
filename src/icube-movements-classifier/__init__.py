@@ -1,0 +1,2 @@
+from .icube_movements_classifier import MovementsDetector
+from .icube_movements_classifier import MovementState
