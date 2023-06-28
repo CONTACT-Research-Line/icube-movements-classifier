@@ -108,3 +108,5 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+
+        self.init_acc = np_acc
