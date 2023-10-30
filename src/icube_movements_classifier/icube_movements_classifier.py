@@ -126,7 +126,7 @@ class MovementsDetector(BaseHandler):
         @param on_touch_rightfaceF6: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_touch_rightfaceF6 = on_touch_leftfaceF6
+        self.on_touch_rightfaceF6 = on_touch_rightfaceF6
 
     def set_on_touch_upleftF1_callback(self, on_touch_upleftF1):
         """
