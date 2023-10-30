@@ -208,11 +208,12 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
 
-
+        """
         if self.icube_state in [MovementState.GRABBED, MovementState.TURNED]:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+        """
 
         if self.icube_state == MovementState.GRABBED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
