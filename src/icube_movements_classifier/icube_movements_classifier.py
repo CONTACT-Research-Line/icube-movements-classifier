@@ -152,7 +152,7 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_downleftF3 = on_touch_downleftF3
 
-     def set_on_touch_downrightF4_callback(self, on_touch_downrightF4):
+    def set_on_touch_downrightF4_callback(self, on_touch_downrightF4):
         """
         What to do when the cube is touched the down right part of the first face F4
         @param on_touch_downrightF4: function in format event_trigger(delta_acceleration)
