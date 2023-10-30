@@ -275,11 +275,10 @@ class MovementsDetector(BaseHandler):
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_DOWNRIGHTF4
                 self.on_touch_downrightF4()
-        """""
+
         if self.icube_state in [MovementState.GRABBED, MovementState.TURNED]:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
-        """""
 
         self.init_acc = np_acc
