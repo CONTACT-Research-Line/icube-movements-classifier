@@ -82,6 +82,22 @@ class MovementsDetector(BaseHandler):
         """
         self.on_move = on_move
 
+    def set_on_turn_callback(self, on_turn):
+        """
+        What to do when the cube is turned
+        @param on_move: function in format event_trigger(delta_acceleration)
+        @return:
+        """
+        self.on_turn = on_turn
+
+    def set_on_touch_callback(self, on_touch):
+        """
+        What to do when the cube is touched
+        @param on_touch: function in format event_trigger(delta_acceleration)
+        @return:
+        """
+        self.on_touch = on_touch
+
     def set_on_turn_right_callback(self, on_turn_right):
         """
         What to do when the cube is turned right
