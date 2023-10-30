@@ -12,16 +12,17 @@ class MovementState(enum.Enum):
     MOVED = 2
     UNKNOWN = 3
     TOUCHED = 4
-    TURNED_RIGHT = 5
-    TURNED_LEFT = 6
-    TURNED_UPWARD = 7
-    TURNED_DOWNWARD = 8
-    TOUCH_LEFTFACEF5 = 9
-    TOUCH_RIGHTFACEF6 = 10
-    TOUCH_UPLEFTF1 = 11
-    TOUCH_UPRIGHTF2 = 12
-    TOUCH_DOWNLEFTF3 = 13
-    TOUCH_DOWNRIGHTF4 = 14
+    TURNED = 5
+    TURNED_RIGHT = 6
+    TURNED_LEFT = 7
+    TURNED_UPWARD = 8
+    TURNED_DOWNWARD = 9
+    TOUCH_LEFTFACEF5 = 10
+    TOUCH_RIGHTFACEF6 = 11
+    TOUCH_UPLEFTF1 = 12
+    TOUCH_UPRIGHTF2 = 13
+    TOUCH_DOWNLEFTF3 = 14
+    TOUCH_DOWNRIGHTF4 = 15
 
 
 class MovementsDetector(BaseHandler):
@@ -44,6 +45,7 @@ class MovementsDetector(BaseHandler):
         self.on_pose = None
         self.on_move = None
         self.on_touch = None
+        self.on_turn = None
         self.on_turn_right = None
         self.on_turn_left =None
         self.on_turn_upward = None
@@ -217,7 +219,7 @@ class MovementsDetector(BaseHandler):
 
         if self.icube_state == MovementState.GRABBED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.TURNED_RIGHT
+                self.icube_state = MovementState.TURNED
                 self.on_turn()
 
         if self.icube_state == MovementState.TURNED_RIGHT:
