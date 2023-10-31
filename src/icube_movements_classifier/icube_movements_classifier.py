@@ -209,9 +209,11 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+            """""
             else:
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
+            """
 
         np_acc = np.array(accelerometer)
 
@@ -221,12 +223,12 @@ class MovementsDetector(BaseHandler):
         self.delta_movement = np.linalg.norm(accelerometer - self.init_acc)
         if self.delta_movement > 0:
             self.on_move(self.delta_movement)
-        
+        """""
         if self.icube_state == MovementState.UNKNOWN:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
-
+        """
         if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.GRABBED
