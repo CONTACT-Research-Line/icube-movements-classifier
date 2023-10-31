@@ -17,8 +17,8 @@ class MovementState(enum.Enum):
     TURNED_LEFT = 7
     TURNED_UPWARD = 8
     TURNED_DOWNWARD = 9
-    TOUCH_LEFTFACEF5 = 10
-    TOUCH_RIGHTFACEF6 = 11
+    TOUCH_RIGHTFACEF5 = 10
+    TOUCH_LEFTFACEF6 = 11
     TOUCH_UPLEFTF1 = 12
     TOUCH_UPRIGHTF2 = 13
     TOUCH_DOWNLEFTF3 = 14
@@ -50,8 +50,8 @@ class MovementsDetector(BaseHandler):
         self.on_turn_left =None
         self.on_turn_upward = None
         self.on_turn_downward = None
-        self.on_touch_leftfaceF5 = None
-        self.on_touch_rightfaceF6 = None
+        self.on_touch_rightfaceF5 = None
+        self.on_touch_leftfaceF6 = None
         self.on_touch_upleftF1 = None
         self.on_touch_uprightF2 = None
         self.on_touch_downleftF3 = None
@@ -130,21 +130,21 @@ class MovementsDetector(BaseHandler):
         """
         self.on_turn_downward = on_turn_downward
 
-    def set_on_touch_leftfaceF5_callback(self, on_touch_leftfaceF5):
+    def set_on_touch_rightfaceF5_callback(self, on_touch_rightfaceF5):
         """
-        What to do when the cube is touched left face F5
-        @param on_touch_leftfaceF5: function in format event_trigger(delta_acceleration)
+        What to do when the cube is touched right face F5
+        @param on_touch_rightfaceF5: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_touch_leftfaceF5 = on_touch_leftfaceF5
+        self.on_touch_rightfaceF5 = on_touch_rightfaceF5
 
-    def set_on_touch_rightfaceF6_callback(self, on_touch_rightfaceF6):
+    def set_on_touch_leftfaceF6_callback(self, on_touch_leftfaceF6):
         """
-        What to do when the cube is touched right face F6
-        @param on_touch_rightfaceF6: function in format event_trigger(delta_acceleration)
+        What to do when the cube is touched left face F6
+        @param on_touch_leftfaceF6: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_touch_rightfaceF6 = on_touch_rightfaceF6
+        self.on_touch_leftfaceF6 = on_touch_leftfaceF6
 
     def set_on_touch_upleftF1_callback(self, on_touch_upleftF1):
         """
@@ -226,52 +226,52 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TURNED_RIGHT
                 self.on_turn_right()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TURNED_LEFT
                 self.on_turn_left()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TURNED_UPWARD
                 self.on_turn_upward()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TURNED_DOWNWARD
                 self.on_turn_downward()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.TOUCH_LEFTFACEF5
-                self.on_touch_leftfaceF5()
+                self.icube_state = MovementState.TOUCH_RIGHTFACEF5
+                self.on_touch_rightfaceF5()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.TOUCH_RIGHTFACEF6
-                self.on_touch_rightfaceF6()
+                self.icube_state = MovementState.TOUCH_LEFTFACEF6
+                self.on_touch_leftfaceF6()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_UPLEFTF1
                 self.on_touch_upleftF1()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_UPRIGHTF2
                 self.on_touch_uprightF2()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_DOWNLEFTF3
                 self.on_touch_downleftF3()
 
-        if self.icube_state == MovementState.TURNED:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_DOWNRIGHTF4
                 self.on_touch_downrightF4()
