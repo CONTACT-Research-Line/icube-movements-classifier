@@ -63,76 +63,76 @@ class MovementsDetector(BaseHandler):
 
     def compute_angles(df, quanti_trial):
 
-    print('Sto calcolando le rotazioni...')
-    #definisco assi assoluti
-    X = [1,0,0]
-    Y = [0,1,0]
-    Z = [0,0,1]
+        print('Sto calcolando le rotazioni...')
+        #definisco assi assoluti
+        X = [1,0,0]
+        Y = [0,1,0]
+        Z = [0,0,1]
 
-    delta = []
+        delta = []
 
-    df_quat = df.loc[:,['trial_number','quaternion_w','quaternion_x','quaternion_y','quaternion_z']]
-    df_quat = df_quat.astype('float')
+        df_quat = df.loc[:,['trial_number','quaternion_w','quaternion_x','quaternion_y','quaternion_z']]
+        df_quat = df_quat.astype('float')
 
-    #converto trial number in intero
-    df_quat['trial_number'] = df_quat['trial_number'].astype('int')
+        #converto trial number in intero
+        df_quat['trial_number'] = df_quat['trial_number'].astype('int')
 
-    for trial in range(1,quanti_trial+1):
+        for trial in range(1,quanti_trial+1):
 
-        df_sub = df_quat[df_quat['trial_number'] == trial] #seleziono subset x ogni trial
+           df_sub = df_quat[df_quat['trial_number'] == trial] #seleziono subset x ogni trial
 
-        lista = df_sub.iloc[:,1:].values.tolist()
+           lista = df_sub.iloc[:,1:].values.tolist()
 
-        for i in range(len(lista)-1):
+           for i in range(len(lista)-1):
 
-            q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
-            q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
+              q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
+              q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
 
-            # Get the 3D difference between these two orientations
-            qd = q_upper.conjugate * q_lower
+              # Get the 3D difference between these two orientations
+              qd = q_upper.conjugate * q_lower
 
-            #ruoto assi
-            delta_X = qd.rotate(X)
-            delta_Y = qd.rotate(Y)
-            delta_Z = qd.rotate(Z)
+              #ruoto assi
+              delta_X = qd.rotate(X)
+              delta_Y = qd.rotate(Y)
+              delta_Z = qd.rotate(Z)
 
-            angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
-            angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
-            angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
-            # Calculate Euler angles from this difference quaternion
-            # phi_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
-            # theta_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
-            # psi_rad   = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
+              angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
+              angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
+              angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
+              # Calculate Euler angles from this difference quaternion
+              # phi_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
+              # theta_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
+              # psi_rad   = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
 
-            # phi_deg = math.degrees(phi_rad)  #X
-            # theta_deg = math.degrees(theta_rad) #Y
-            # psi_deg = math.degrees(psi_rad) #Z
-            # maxx1 = abs(math.degrees(qd.angle))
-            delta.append([trial,angle_X,angle_Y,angle_Z])
+              # phi_deg = math.degrees(phi_rad)  #X
+              # theta_deg = math.degrees(theta_rad) #Y
+              # psi_deg = math.degrees(psi_rad) #Z
+              # maxx1 = abs(math.degrees(qd.angle))
+              delta.append([trial,angle_X,angle_Y,angle_Z])
 
-    #converto in dataframe
-    delta = pd.DataFrame(delta)
-    delta.rename(columns={0: "trial_number", 1: 'X', 2: 'Y', 3: 'Z'},inplace=True)
-    delta['trial_number'] = delta['trial_number'].astype('int')
+        #converto in dataframe
+        delta = pd.DataFrame(delta)
+        delta.rename(columns={0: "trial_number", 1: 'X', 2: 'Y', 3: 'Z'},inplace=True)
+        delta['trial_number'] = delta['trial_number'].astype('int')
 
-    #inizializzo liste rotazioni orarie e antiorarie
-    somma_rotazioni = []
+        #inizializzo liste rotazioni orarie e antiorarie
+        somma_rotazioni = []
 
-    for trial in range(1,quanti_trial+1):
+        for trial in range(1,quanti_trial+1):
 
-        df_sub = delta[delta['trial_number'] == trial] #seleziono subset x ogni trial
-        df_sub.reset_index(drop=True,inplace=True)
-        df_sub = df_sub.loc[:,['X','Y','Z']]   #seleziono colonne con rotazioni
-        somma_rotazioni.append(df_sub.sum())
+           df_sub = delta[delta['trial_number'] == trial] #seleziono subset x ogni trial
+           df_sub.reset_index(drop=True,inplace=True)
+           df_sub = df_sub.loc[:,['X','Y','Z']]   #seleziono colonne con rotazioni
+           somma_rotazioni.append(df_sub.sum())
 
-        # print('Il soggetto ha ruotato',somma_rotazioni[trial-1][0],'° lungo asse X in trial', trial)
-        # print('Il soggetto ha ruotato',somma_rotazioni[trial-1][1],'° lungo asse Y in trial', trial)
-        # print('Il soggetto ha ruotato',somma_rotazioni[trial-1][2],'° lungo asse Z in trial', trial)
+           # print('Il soggetto ha ruotato',somma_rotazioni[trial-1][0],'° lungo asse X in trial', trial)
+           # print('Il soggetto ha ruotato',somma_rotazioni[trial-1][1],'° lungo asse Y in trial', trial)
+           # print('Il soggetto ha ruotato',somma_rotazioni[trial-1][2],'° lungo asse Z in trial', trial)
 
-    #converto in numpy arrays
-    somma_rotazioni = np.asarray(somma_rotazioni)
+        #converto in numpy arrays
+        somma_rotazioni = np.asarray(somma_rotazioni)
 
-    return delta, somma_rotazioni
+        return delta, somma_rotazioni
 
 
     def set_on_grab_callback(self, on_grab):
