@@ -1,6 +1,6 @@
 [project]
 name = "icube-movements-classifier"  # Required
-version = "0.0.59"  # Required
+version = "0.0.60"  # Required
 description = "Python library to compute features related to how the iCube is handled over time"  # Optional
 readme = "README.md" # Optional
 requires-python = ">=3.7"

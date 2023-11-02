@@ -85,43 +85,43 @@ class MovementsDetector(BaseHandler):
 
             for i in range(len(lista)-1):
             """
-            for i in range(1,2):
-                q1x = 0.035000000149011612
-                q1y = -0.71909999847412109
-                q1z = 0.0057999999262392521
-                q1w = 0.6940000057220459
-                q2x = 0.54600000381469727
-                q2y = -0.47389999032020569
-                q2z = 0.51160001754760742
-                q2w = 0.46439999341964722
+        for i in range(1,2):
+            q1x = 0.035000000149011612
+            q1y = -0.71909999847412109
+            q1z = 0.0057999999262392521
+            q1w = 0.6940000057220459
+            q2x = 0.54600000381469727
+            q2y = -0.47389999032020569
+            q2z = 0.51160001754760742
+            q2w = 0.46439999341964722
 
-                q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
-                q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)
-                """""
+            q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
+            q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)
+            """""
                 q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
                 q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
-                """
-                # Get the 3D difference between these two orientations
-                qd = q_upper.conjugate * q_lower
+            """
+            # Get the 3D difference between these two orientations
+            qd = q_upper.conjugate * q_lower
 
-                #ruoto assi
-                delta_X = qd.rotate(X)
-                delta_Y = qd.rotate(Y)
-                delta_Z = qd.rotate(Z)
+            #ruoto assi
+            delta_X = qd.rotate(X)
+            delta_Y = qd.rotate(Y)
+            delta_Z = qd.rotate(Z)
 
-                angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
-                angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
-                angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
-                # Calculate Euler angles from this difference quaternion
-                # phi_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
-                # theta_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
-                # psi_rad   = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
+            angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
+            angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
+            angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
+            # Calculate Euler angles from this difference quaternion
+            # phi_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
+            # theta_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
+            # psi_rad   = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
 
-                # phi_deg = math.degrees(phi_rad)  #X
-                # theta_deg = math.degrees(theta_rad) #Y
-                # psi_deg = math.degrees(psi_rad) #Z
-                # maxx1 = abs(math.degrees(qd.angle))
-                delta.append([trial,angle_X,angle_Y,angle_Z])
+            # phi_deg = math.degrees(phi_rad)  #X
+            # theta_deg = math.degrees(theta_rad) #Y
+            # psi_deg = math.degrees(psi_rad) #Z
+            # maxx1 = abs(math.degrees(qd.angle))
+            delta.append([trial,angle_X,angle_Y,angle_Z])
 
         #converto in dataframe
         delta = pd.DataFrame(delta)
