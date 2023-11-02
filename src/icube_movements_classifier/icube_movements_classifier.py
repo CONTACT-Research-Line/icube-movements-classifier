@@ -59,7 +59,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_uprightF2 = None
         self.on_touch_downleftF3 = None
         self.on_touch_downrightF4 = None
-    """""
+
     def compute_angles(quanti_trial):
 
         print('Sto calcolando le rotazioni...')
@@ -83,14 +83,14 @@ class MovementsDetector(BaseHandler):
 
             "for i in range(len(lista)-1):
             for i in range(1,2):
-                q1x =
-                q1y =
-                q1z =
-                q1w =
-                q2x =
-                q2y =
-                q2z =
-                q2w =
+                q1x = 0.035000000149011612
+                q1y = -0.71909999847412109
+                q1z = 0.0057999999262392521
+                q1w = 0.6940000057220459
+                q2x = 0.54600000381469727
+                q2y = -0.47389999032020569
+                q2z = 0.51160001754760742
+                q2w = 0.46439999341964722
 
                 q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
                 q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)
@@ -142,7 +142,7 @@ class MovementsDetector(BaseHandler):
 
         "return delta, somma_rotazioni
         return angle_X, angle_Y, angle_Z
-    """
+
     def set_on_grab_callback(self, on_grab):
         """
         What to do when the cube is grasped
@@ -286,12 +286,11 @@ class MovementsDetector(BaseHandler):
         @param accelerometer:
         @return:
         """
-        """""
+
         "handling quaternions"
         "convertion from quaternions to angles"
         angleX, angleY, angleZ = self.compute_angles(1)
-        """
-
+        
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
             return False
