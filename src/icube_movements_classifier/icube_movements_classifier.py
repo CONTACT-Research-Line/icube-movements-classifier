@@ -296,7 +296,7 @@ class MovementsDetector(BaseHandler):
 
         "handling quaternions"
         "convertion from quaternions to angles"
-        angleX, angleY, angleZ = self.compute_angles(1)
+        angleX,angleY,angleZ = self.compute_angles(1)
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
