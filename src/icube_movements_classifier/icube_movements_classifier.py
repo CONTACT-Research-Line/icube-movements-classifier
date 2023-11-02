@@ -75,8 +75,9 @@ class MovementsDetector(BaseHandler):
 
         #converto trial number in intero
         df_quat['trial_number'] = df_quat['trial_number'].astype('int')
-
+        """
         for trial in range(1,quanti_trial+1):
+            """""
             df_sub = df_quat[df_quat['trial_number'] == trial] #seleziono subset x ogni trial
 
             lista = df_sub.iloc[:,1:].values.tolist()
