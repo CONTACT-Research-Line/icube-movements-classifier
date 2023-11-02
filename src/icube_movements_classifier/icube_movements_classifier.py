@@ -69,19 +69,20 @@ class MovementsDetector(BaseHandler):
         Z = [0,0,1]
 
         delta = []
-
-        "df_quat = df.loc[:,['trial_number','quaternion_w','quaternion_x','quaternion_y','quaternion_z']]"
-        "df_quat = df_quat.astype('float')"
+        """""
+        df_quat = df.loc[:,['trial_number','quaternion_w','quaternion_x','quaternion_y','quaternion_z']]
+        df_quat = df_quat.astype('float')
 
         #converto trial number in intero
-        "df_quat['trial_number'] = df_quat['trial_number'].astype('int')"
+        df_quat['trial_number'] = df_quat['trial_number'].astype('int')
 
         for trial in range(1,quanti_trial+1):
-            "df_sub = df_quat[df_quat['trial_number'] == trial] #seleziono subset x ogni trial"
+            df_sub = df_quat[df_quat['trial_number'] == trial] #seleziono subset x ogni trial
 
-            "lista = df_sub.iloc[:,1:].values.tolist()"
+            lista = df_sub.iloc[:,1:].values.tolist()
 
-            "for i in range(len(lista)-1):"
+            for i in range(len(lista)-1):
+            """
             for i in range(1,2):
                 q1x = 0.035000000149011612
                 q1y = -0.71909999847412109
@@ -94,8 +95,10 @@ class MovementsDetector(BaseHandler):
 
                 q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
                 q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)
-                "q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])"
-                "q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])"
+                """""
+                q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
+                q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
+                """
                 # Get the 3D difference between these two orientations
                 qd = q_upper.conjugate * q_lower
 
@@ -126,7 +129,8 @@ class MovementsDetector(BaseHandler):
         #inizializzo liste rotazioni orarie e antiorarie
         somma_rotazioni = []
 
-        "for trial in range(1,quanti_trial+1):"
+        """""
+        for trial in range(1,quanti_trial+1):
 
             "df_sub = delta[delta['trial_number'] == trial] #seleziono subset x ogni trial"
             "df_sub.reset_index(drop=True,inplace=True)"
@@ -140,7 +144,8 @@ class MovementsDetector(BaseHandler):
         #converto in numpy arrays
         "somma_rotazioni = np.asarray(somma_rotazioni)"
 
-        "return delta, somma_rotazioni"
+        return delta, somma_rotazioni
+        """
         return angle_X, angle_Y, angle_Z
 
     def set_on_grab_callback(self, on_grab):
