@@ -61,7 +61,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_downrightF4 = None
 
     def compute_angles(quanti_trial):
-        
+        quanti_trial = 1
 
         print('Sto calcolando le rotazioni...')
         #definisco assi assoluti
@@ -302,8 +302,8 @@ class MovementsDetector(BaseHandler):
 
         "handling quaternions"
         "convertion from quaternions to angles"
-        quanti_trial = 1
-        angleX,angleY,angleZ = self.compute_angles(quanti_trial)
+        quanti_trial_value = 1
+        angleX, angleY, angleZ = compute_angles(quanti_trial_value)
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
