@@ -61,7 +61,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_downrightF4 = None
 
     def compute_angles(self,df,quanti_trial):
-        
+
 
         print('Sto calcolando le rotazioni...')
         #definisco assi assoluti
@@ -298,7 +298,7 @@ class MovementsDetector(BaseHandler):
 
         "handling quaternions"
         "convertion from quaternions to angles"
-        df_value = [:,[]]
+        df_value = [:,1]
         quanti_trial_value = 1
         print('il dataframe ha',quanti_trial_value,'trials')
         delta, somma_rotazioni, angleX, angleY, angleZ = self.compute_angles(df_value, quanti_trial_value)
