@@ -298,9 +298,10 @@ class MovementsDetector(BaseHandler):
 
         "handling quaternions"
         "convertion from quaternions to angles"
+        df_value = [];
         quanti_trial_value = 1
         print('il dataframe ha',quanti_trial_value,'trials')
-        delta, somma_rotazioni, angleX, angleY, angleZ = self.compute_angles(df, quanti_trial_value)
+        delta, somma_rotazioni, angleX, angleY, angleZ = self.compute_angles(df_value, quanti_trial_value)
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
