@@ -183,7 +183,7 @@ class MovementsDetector(BaseHandler):
     def set_on_turn_callback(self, on_turn):
         """
         What to do when the cube is turned
-        @param on_move: function in format event_trigger(delta_acceleration)
+        @param on_turn: function in format event_trigger(delta_acceleration)
         @return:
         """
         self.on_turn = on_turn
@@ -303,8 +303,8 @@ class MovementsDetector(BaseHandler):
         "handling quaternions"
         "convertion from quaternions to angles"
         quanti_trial_value = 1
-        print ('il dataframe ha',quanti_trial_value,'trials')
-        angleX, angleY, angleZ = self.compute_angles(quanti_trial_value)
+        print('il dataframe ha',quanti_trial_value,'trials')
+        angleX, angleY, angleZ = self.compute_angles(self,quanti_trial_value)
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
