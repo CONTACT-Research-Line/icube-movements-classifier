@@ -61,7 +61,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_downrightF4 = None
 
     def compute_angles(self,df,quanti_trial):
-        quanti_trial = 1
+        
 
         print('Sto calcolando le rotazioni...')
         #definisco assi assoluti
