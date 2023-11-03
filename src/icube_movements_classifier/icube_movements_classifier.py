@@ -121,8 +121,11 @@ class MovementsDetector(BaseHandler):
             # theta_deg = math.degrees(theta_rad) #Y
             # psi_deg = math.degrees(psi_rad) #Z
             # maxx1 = abs(math.degrees(qd.angle))
+            """"
             delta.append([trial,angle_X,angle_Y,angle_Z])
-
+            """
+            delta.append([angle_X,angle_Y,angle_Z])
+        """""
         #converto in dataframe
         delta = pd.DataFrame(delta)
         delta.rename(columns={0: "trial_number", 1: 'X', 2: 'Y', 3: 'Z'},inplace=True)
@@ -130,6 +133,7 @@ class MovementsDetector(BaseHandler):
 
         #inizializzo liste rotazioni orarie e antiorarie
         somma_rotazioni = []
+        """""
 
         """""
         for trial in range(1,quanti_trial+1):
