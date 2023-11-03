@@ -60,7 +60,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_downleftF3 = None
         self.on_touch_downrightF4 = None
 
-    def compute_angles(quanti_trial):
+    def compute_angles(self,quanti_trial):
         quanti_trial = 1
 
         print('Sto calcolando le rotazioni...')
@@ -304,7 +304,7 @@ class MovementsDetector(BaseHandler):
         "convertion from quaternions to angles"
         quanti_trial_value = 1
         print('il dataframe ha',quanti_trial_value,'trials')
-        angleX, angleY, angleZ = self.compute_angles(self,quanti_trial_value)
+        angleX, angleY, angleZ = self.compute_angles(quanti_trial_value)
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
