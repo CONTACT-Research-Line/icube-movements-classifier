@@ -123,8 +123,9 @@ class MovementsDetector(BaseHandler):
             # maxx1 = abs(math.degrees(qd.angle))
             """"
             delta.append([trial,angle_X,angle_Y,angle_Z])
-            """
+            
             delta.append([angle_X,angle_Y,angle_Z])
+            """
         """""
         #converto in dataframe
         delta = pd.DataFrame(delta)
