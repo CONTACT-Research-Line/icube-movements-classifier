@@ -1,7 +1,7 @@
 import enum
 import math
 import pandas as pd
-import pyquaternion as pyq
+import pyquaternion as pyp
 
 from icube.data_handlers.base import BaseHandler
 import numpy as np
