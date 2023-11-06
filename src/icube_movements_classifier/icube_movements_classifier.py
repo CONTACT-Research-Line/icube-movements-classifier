@@ -112,15 +112,20 @@ class MovementsDetector(BaseHandler):
                 q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
                 q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
                 """
-                print('q_upper_x',q_upper.x,'q_upper_y',q_upper.y,'q_upper_z',q_upper.z)
+                print('q_upper_w',q_upper.w,'q_upper_x',q_upper.x,'q_upper_y',q_upper.y,'q_upper_z',q_upper.z)
+                print('q_lower_w',q_lower.w,'q_lower_x',q_lower.x,'q_lower_y',q_lower.y,'q_lower_z',q_lower.z)
 
                 # Get the 3D difference between these two orientations
                 qd = q_upper.conjugate * q_lower
+
+                print('qd_w',qd.w,'qd_x',qd.x,'qd_y',qd.y,'qd_z',qd.z)
 
                 #ruoto assi
                 delta_X = qd.rotate(X)
                 delta_Y = qd.rotate(Y)
                 delta_Z = qd.rotate(Z)
+
+                print('delta_x',delta_X, 'delta_y',delta_Y,'delta_z',delta_Z)
 
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
                 angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
