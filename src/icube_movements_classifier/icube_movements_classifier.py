@@ -87,7 +87,7 @@ class MovementsDetector(BaseHandler):
             for i in range(len(lista)-1):
             """
             for i in range(1,2):
-
+                """""
                 q1x = 0.035000000149011612
                 q1y = -0.71909999847412109
                 q1z = 0.0057999999262392521
@@ -106,7 +106,7 @@ class MovementsDetector(BaseHandler):
                 q2y = -0.72009998559951782
                 q2z = -0.00019999999494757503
                 q2w = 0.69349998235702515
-                """
+
                 q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
                 q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)
                 """
