@@ -98,10 +98,12 @@ class MovementsDetector(BaseHandler):
 
                 q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
                 q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)
-                """""
+                """
                 q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
                 q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
                 """
+                print('q_upper_x',q_upper.x,'q_upper_y',q_upper.y,'q_upper_z',q_upper.z)
+
                 # Get the 3D difference between these two orientations
                 qd = q_upper.conjugate * q_lower
 
@@ -127,7 +129,7 @@ class MovementsDetector(BaseHandler):
                 # maxx1 = abs(math.degrees(qd.angle))
 
                 delta.append([trial,angle_X,angle_Y,angle_Z])
-                """""
+                """
                 delta.append([angle_X,angle_Y,angle_Z])
                 """
 
@@ -135,7 +137,7 @@ class MovementsDetector(BaseHandler):
         delta = pd.DataFrame(delta)
         delta.rename(columns={0: "trial_number", 1: 'X', 2: 'Y', 3: 'Z'},inplace=True)
         delta['trial_number'] = delta['trial_number'].astype('int')
-        """""
+        """"
         #inizializzo liste rotazioni orarie e antiorarie
         somma_rotazioni = []
         
@@ -303,7 +305,7 @@ class MovementsDetector(BaseHandler):
         "handling quaternions"
         "convertion from quaternions to angles"
         quanti_trial_value = 1
-        print('il dataframe ha',quanti_trial_value,'trials')
+        print('Il dataframe ha',quanti_trial_value,'trials')
         angleX, angleY, angleZ = self.compute_angles(quanti_trial_value)
 
         "handling accelerometer"
@@ -314,7 +316,7 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
-        """""
+        """"
             else:
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
