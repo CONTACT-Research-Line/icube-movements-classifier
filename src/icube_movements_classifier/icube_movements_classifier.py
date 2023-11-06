@@ -97,6 +97,7 @@ class MovementsDetector(BaseHandler):
                 q2z = 0.51160001754760742
                 q2w = 0.46439999341964722
                 """
+                
                 q1x = 0.02199999988079071
                 q1y = -0.72009998559951782
                 q1z = -0.00019999999494757503
@@ -125,13 +126,13 @@ class MovementsDetector(BaseHandler):
                 delta_Y = qd.rotate(Y)
                 delta_Z = qd.rotate(Z)
 
-                print('delta_x',delta_X, 'delta_y',delta_Y,'delta_z',delta_Z)
+                print('delta_X',delta_X, 'delta_Y',delta_Y,'delta_Z',delta_Z)
 
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
                 angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
                 angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
 
-                print('angle X',angle_X,' angle Y',angle_Y,' angle Z',angle_Z)
+                print('angle_X',angle_X,' angle_Y',angle_Y,' angle_Z',angle_Z)
 
                 # Calculate Euler angles from this difference quaternion
                 # phi_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
