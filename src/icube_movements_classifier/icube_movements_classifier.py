@@ -375,7 +375,7 @@ class MovementsDetector(BaseHandler):
         q2z = -0.48879998922348022
         q2w = 0.49559998512268066
         """
-        s
+        
         print('quaternions_old',quaternions_old)
 
 
