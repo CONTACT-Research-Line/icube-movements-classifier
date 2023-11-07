@@ -60,7 +60,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_downleftF3 = None
         self.on_touch_downrightF4 = None
 
-    def compute_angles(self,quanti_trial):
+    def compute_angles(self,q1x, q1y, q1z, q1w, q2x, q2y, q2z, q2w , quanti_trial):
 
 
         print('Sto calcolando le rotazioni...')
@@ -98,7 +98,7 @@ class MovementsDetector(BaseHandler):
                 q2z = 0.0057000000961124897
                 q2w = 0.69330000877380371
                 """
-
+                """""
                 "turn right the cube of 90°"
                 q1x = 0.019300000742077827
                 q1y = -0.72030001878738403
@@ -106,9 +106,9 @@ class MovementsDetector(BaseHandler):
                 q1w = 0.69340002536773682
                 q2x = 0.52310001850128174
                 q2y = -0.49180001020431519
-                q2z = -0.48879998922348022 
+                q2z = -0.48879998922348022
                 q2w = 0.49559998512268066
-
+                """
                 """
                 "turn left the cube of -90°"
                 q1x = -0.21420000493526459
@@ -355,12 +355,24 @@ class MovementsDetector(BaseHandler):
         @param accelerometer:
         @return:
         """
+        print('quaternions',quaternions)
 
         "handling quaternions"
         "convertion from quaternions to angles"
         quanti_trial_value = 1
         print('Il dataframe ha',quanti_trial_value,'trials')
-        angleX, angleY, angleZ = self.compute_angles(quanti_trial_value)
+
+        "turn right the cube of 90°"
+        q1x = 0.019300000742077827
+        q1y = -0.72030001878738403
+        q1z = 0.0013000000035390258
+        q1w = 0.69340002536773682
+        q2x = 0.52310001850128174
+        q2y = -0.49180001020431519
+        q2z = -0.48879998922348022
+        q2w = 0.49559998512268066
+
+        angleX, angleY, angleZ = self.compute_angles(q1x, q1y, q1z, q1w, q2x, q2y, q2z, q2w, quanti_trial_value)
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
