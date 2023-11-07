@@ -108,7 +108,7 @@ class MovementsDetector(BaseHandler):
                 q2z = -0.00019999999494757503
                 q2w = 0.69349998235702515
                 """
-                
+                """""
                 "turn right the cube of 90°"
                 q1x = 0.021600000560283661
                 q1y = -0.71979999542236328
@@ -118,9 +118,21 @@ class MovementsDetector(BaseHandler):
                 q2y = -0.49059998989105225
                 q2z = -0.49439999461174011
                 q2w = 0.48910000920295715
+                """
 
+                "turn left the cube of -90°"
+                 q1x = 0.021700000390410423
+                 q1y = -0.71909999847412109
+                 q1z = 0.0013000000035390258
+                 q1w = 0.69459998607635498
+                 q2x = -0.48609998822212219
+                 q2y = -0.53109997510910034
+                 q2z = 0.51319998502731323
+                 q2w = 0.46709999442100525
 
+                "turn upward the cube"
 
+                "turn downward the cube"
 
                 q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
                 q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)
