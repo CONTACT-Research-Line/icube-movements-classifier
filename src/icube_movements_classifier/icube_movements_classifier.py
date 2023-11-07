@@ -61,7 +61,8 @@ class MovementsDetector(BaseHandler):
         self.on_touch_downrightF4 = None
 
     "def compute_angles(self,q1x, q1y, q1z, q1w, q2x, q2y, q2z, q2w , quanti_trial):"
-    def compute_angles(self, q1x, q1y, q1z, q1w, quaternions, quanti_trial):
+    "def compute_angles(self, q1x, q1y, q1z, q1w, quaternions, quanti_trial):"
+    def compute_angles(self, quaternions_old, quaternions, quanti_trial):
 
 
         print('Sto calcolando le rotazioni...')
@@ -356,19 +357,19 @@ class MovementsDetector(BaseHandler):
         @return:
         """
         print('quaternions',quaternions)
-        
+
 
         "handling quaternions"
         "convertion from quaternions to angles"
         quanti_trial_value = 1
         print('Il dataframe ha',quanti_trial_value,'trials')
-
+        """""
         "turn right the cube of 90°"
         q1x = 0.019300000742077827
         q1y = -0.72030001878738403
         q1z = 0.0013000000035390258
         q1w = 0.69340002536773682
-        """""
+        
         q2x = 0.52310001850128174
         q2y = -0.49180001020431519
         q2z = -0.48879998922348022
@@ -377,7 +378,8 @@ class MovementsDetector(BaseHandler):
 
 
 
-        angleX, angleY, angleZ = self.compute_angles(q1x, q1y, q1z, q1w, quaternions, quanti_trial_value)
+        "angleX, angleY, angleZ = self.compute_angles(q1x, q1y, q1z, q1w, quaternions, quanti_trial_value)"
+        angleX, angleY, angleZ = self.compute_angles(quaternions_old quaternions, quanti_trial_value)
 
         quaternions_old = quaternions
         print('quaternions_old',quaternions_old)
