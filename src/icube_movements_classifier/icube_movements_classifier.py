@@ -356,7 +356,7 @@ class MovementsDetector(BaseHandler):
         @return:
         """
         print('quaternions',quaternions)
-        print('quaternions_old',quaternions_old)
+        
 
         "handling quaternions"
         "convertion from quaternions to angles"
@@ -380,6 +380,7 @@ class MovementsDetector(BaseHandler):
         angleX, angleY, angleZ = self.compute_angles(q1x, q1y, q1z, q1w, quaternions, quanti_trial_value)
 
         quaternions_old = quaternions
+        print('quaternions_old',quaternions_old)
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
