@@ -132,7 +132,7 @@ class MovementsDetector(BaseHandler):
                 q2z = -0.30120000243186951
                 q2w = 0.95359998941421509
                 """
-                
+
                 """""
                 "turn downward the cube"
                 q1x = -0.18719999492168427
