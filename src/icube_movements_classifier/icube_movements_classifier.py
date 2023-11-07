@@ -87,7 +87,7 @@ class MovementsDetector(BaseHandler):
             for i in range(len(lista)-1):
             """
             for i in range(1,2):
-
+                """""
                 "start position of the cube"
                 q1x = 0.028300000354647636
                 q1y = -0.72009998559951782
@@ -97,8 +97,8 @@ class MovementsDetector(BaseHandler):
                 q2y = -0.72009998559951782
                 q2z = 0.0057000000961124897
                 q2w = 0.69330000877380371
+                """
 
-                """""
                 "turn right the cube of 90°" "DA VERIFICARE"
                 q1x = -0.21529999375343323
                 q1y = -0.67199999094009399
@@ -108,9 +108,8 @@ class MovementsDetector(BaseHandler):
                 q2y = -0.63620001077651978
                 q2z = -0.63889998197555542
                 q2w = 0.3059999942779541
-                """
 
-                """""
+                """
                 "turn left the cube of -90°"
                 q1x = -0.21420000493526459
                 q1y = -0.67479997873306274
@@ -121,6 +120,7 @@ class MovementsDetector(BaseHandler):
                 q2z = 0.28690001368522644
                 q2w = 0.64670002460479736
                 """
+
                 """""
                 "turn upward the cube"
                 q1x = -0.25260001420974731
@@ -132,7 +132,7 @@ class MovementsDetector(BaseHandler):
                 q2z = -0.30120000243186951
                 q2w = 0.95359998941421509
                 """
-
+                
                 """""
                 "turn downward the cube"
                 q1x = -0.18719999492168427
