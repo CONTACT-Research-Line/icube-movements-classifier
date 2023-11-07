@@ -120,7 +120,6 @@ class MovementsDetector(BaseHandler):
                 q2z = 0.28690001368522644
                 q2w = 0.64670002460479736
                 """
-
                 """""
                 "turn upward the cube"
                 q1x = -0.25260001420974731
@@ -132,7 +131,6 @@ class MovementsDetector(BaseHandler):
                 q2z = -0.30120000243186951
                 q2w = 0.95359998941421509
                 """
-
                 """""
                 "turn downward the cube"
                 q1x = -0.18719999492168427
@@ -165,10 +163,17 @@ class MovementsDetector(BaseHandler):
                 delta_Z = qd.rotate(Z)
 
                 print('delta_X',delta_X, 'delta_Y',delta_Y,'delta_Z',delta_Z)
-
+                """""
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
                 angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
                 angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
+                """
+
+                angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (-np.linalg.norm(X) * np.linalg.norm(delta_X))))
+                angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (-np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
+                angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (-np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
+
+
 
                 print('angle_X',angle_X,' angle_Y',angle_Y,' angle_Z',angle_Z)
 
