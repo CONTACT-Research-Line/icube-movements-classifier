@@ -99,7 +99,7 @@ class MovementsDetector(BaseHandler):
                 q2w = 0.69330000877380371
                 """
 
-                "turn right the cube of 90°" 
+                "turn right the cube of 90°"
                 q1x = 0.020400000736117363
                 q1y = -0.72020000219345093
                 q1z = -0.00019999999494757503
