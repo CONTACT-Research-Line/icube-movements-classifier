@@ -61,7 +61,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_downrightF4 = None
 
     "def compute_angles(self,q1x, q1y, q1z, q1w, q2x, q2y, q2z, q2w , quanti_trial):"
-    def compute_angles(self,q1x, q1y, q1z, q1w, quaternions, quanti_trial):
+    def compute_angles(self, q1x, q1y, q1z, q1w, quaternions, quanti_trial):
 
 
         print('Sto calcolando le rotazioni...')
@@ -169,7 +169,7 @@ class MovementsDetector(BaseHandler):
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
                 angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
                 angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
-            
+
                 print('angle_X',angle_X,' angle_Y',angle_Y,' angle_Z',angle_Z)
 
                 # Calculate Euler angles from this difference quaternion
@@ -359,7 +359,7 @@ class MovementsDetector(BaseHandler):
 
         "handling quaternions"
         "convertion from quaternions to angles"
-        quanti_trial_value = 1
+        "quanti_trial_value = 1"
         print('Il dataframe ha',quanti_trial_value,'trials')
 
         "turn right the cube of 90°"
