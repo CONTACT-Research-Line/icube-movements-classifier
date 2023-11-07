@@ -145,7 +145,8 @@ class MovementsDetector(BaseHandler):
                 """
 
                 q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
-                q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)
+                "q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)"
+                q_lower =pyp.Quaternion(quaternions)
                 """
                 q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
                 q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
