@@ -360,7 +360,7 @@ class MovementsDetector(BaseHandler):
         "handling quaternions"
         "convertion from quaternions to angles"
         "quanti_trial_value = 1"
-        print('Il dataframe ha',quanti_trial_value,'trials')
+        "print('Il dataframe ha',quanti_trial_value,'trials')"
 
         "turn right the cube of 90°"
         q1x = 0.019300000742077827
