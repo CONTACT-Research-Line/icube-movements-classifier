@@ -146,7 +146,7 @@ class MovementsDetector(BaseHandler):
 
                 q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)
                 "q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)"
-                q_lower =pyp.Quaternion(quaternions)
+                q_lower = pyp.Quaternion(quaternions)
                 """
                 q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
                 q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
@@ -356,6 +356,7 @@ class MovementsDetector(BaseHandler):
         @return:
         """
         print('quaternions',quaternions)
+        print('quaternions_old',quaternions_old)
 
         "handling quaternions"
         "convertion from quaternions to angles"
@@ -374,7 +375,11 @@ class MovementsDetector(BaseHandler):
         q2w = 0.49559998512268066
         """
 
+
+
         angleX, angleY, angleZ = self.compute_angles(q1x, q1y, q1z, q1w, quaternions, quanti_trial_value)
+
+        quaternions_old = quaternions
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
