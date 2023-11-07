@@ -7,7 +7,7 @@ from icube.data_handlers.base import BaseHandler
 import numpy as np
 
 CUBE_POSED_FACE = "1111111111111111"
-
+quaternions_old = 0
 
 class MovementState(enum.Enum):
     POSED = 0,
@@ -375,14 +375,15 @@ class MovementsDetector(BaseHandler):
         q2z = -0.48879998922348022
         q2w = 0.49559998512268066
         """
-
+        s
+        print('quaternions_old',quaternions_old)
 
 
         "angleX, angleY, angleZ = self.compute_angles(q1x, q1y, q1z, q1w, quaternions, quanti_trial_value)"
-        angleX, angleY, angleZ = self.compute_angles(quaternions_old quaternions, quanti_trial_value)
+        angleX, angleY, angleZ = self.compute_angles(quaternions_old, quaternions, quanti_trial_value)
 
         quaternions_old = quaternions
-        print('quaternions_old',quaternions_old)
+
 
         "handling accelerometer"
         if accelerometer is None or accelerometer == []:
