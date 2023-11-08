@@ -172,10 +172,9 @@ class MovementsDetector(BaseHandler):
                 angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
                 angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
                 """
-                angle_X = math.degrees(np.arcsin(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
-                angle_Y = math.degrees(np.arcsin(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
-                angle_Z = math.degrees(np.arcsin(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
-
+                angle_X = math.atan2 (2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2))
+                angle_Y = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
+                angle_Z = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
                 print('angle_X',angle_X,' angle_Y',angle_Y,' angle_Z',angle_Z)
 
                 # Calculate Euler angles from this difference quaternion
