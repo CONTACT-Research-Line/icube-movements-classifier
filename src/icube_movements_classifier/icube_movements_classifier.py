@@ -167,10 +167,14 @@ class MovementsDetector(BaseHandler):
                 delta_Z = qd.rotate(Z)
 
                 print('delta_X',delta_X, 'delta_Y',delta_Y,'delta_Z',delta_Z)
-
+                """""
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
                 angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
                 angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
+                """
+                angle_X = math.degrees(np.arcsin(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
+                angle_Y = math.degrees(np.arcsin(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
+                angle_Z = math.degrees(np.arcsin(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
 
                 print('angle_X',angle_X,' angle_Y',angle_Y,' angle_Z',angle_Z)
 
