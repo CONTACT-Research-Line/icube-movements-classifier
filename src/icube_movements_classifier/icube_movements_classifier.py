@@ -2,8 +2,12 @@ import enum
 import math
 import pandas as pd
 import pyquaternion as pyp
+import time
+
 
 from icube.data_handlers.base import BaseHandler
+from icube.tactile.common import tactile_logging as log
+
 import numpy as np
 
 CUBE_POSED_FACE = "1111111111111111"
@@ -60,26 +64,25 @@ class MovementsDetector(BaseHandler):
         self.on_touch_downleftF3 = None
         self.on_touch_downrightF4 = None
 
-    "def compute_angles(self,q1x, q1y, q1z, q1w, q2x, q2y, q2z, q2w , quanti_trial):"
-    "def compute_angles(self, q1x, q1y, q1z, q1w, quaternions, quanti_trial):"
     def compute_angles(self, quaternions_old, quaternions, quanti_trial):
 
-
         print('Sto calcolando le rotazioni...')
-        #definisco assi assoluti
-        X = [1,0,0]
-        Y = [0,1,0]
-        Z = [0,0,1]
+
+        "definisco assi assoluti"
+        X = [1, 0, 0]
+        Y = [0, 1, 0]
+        Z = [0, 0, 1]
 
         delta = []
+
         """""
         df_quat = df.loc[:,['trial_number','quaternion_w','quaternion_x','quaternion_y','quaternion_z']]
         df_quat = df_quat.astype('float')
 
         #converto trial number in intero
         df_quat['trial_number'] = df_quat['trial_number'].astype('int')
-
         """
+
         for trial in range(1,quanti_trial+1):
             """""
             df_sub = df_quat[df_quat['trial_number'] == trial] #seleziono subset x ogni trial
@@ -145,36 +148,78 @@ class MovementsDetector(BaseHandler):
                 q2w = 0.019799999892711639
                 """
 
+                q1w = 0.69290000200271606
+                q1x = 0.021199999377131462
+                q1y = -0.72079998254776001
+                q1z = 0.00030000001424923539
+
+                q_calibration = pyp.Quaternion(q1w, q1x, q1y, q1z)
+
+                print('q_calibration', q_calibration)
+
+                "print ('q_calibration_w', q_calibration.w, 'q_calibration_x', q_calibration.x, 'q_calibration_y', q_calibration.y, 'q_calibration_z', q_calibration.z)"
+
+                q_calib = q_calibration * q_calibration.conjugate
+                print('q_calib', q_calib)
+
                 "q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)"
-                q_upper = pyp.Quaternion(quaternions_old)
+                print('quat_old', pyp.Quaternion(quaternions_old))
+
+                q_upper = pyp.Quaternion(quaternions_old) * q_calibration.conjugate
+                print('q_upper', q_upper)
+
                 "q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)"
-                q_lower = pyp.Quaternion(quaternions)
+                q_lower = pyp.Quaternion(quaternions) - q_calibration
+                print('q_lower', q_lower)
+
                 """
                 q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
                 q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
+                
+                print('q_upper_w', q_upper.w, 'q_upper_x', q_upper.x, 'q_upper_y', q_upper.y, 'q_upper_z', q_upper.z)
+                print('q_lower_w', q_lower.w, 'q_lower_x', q_lower.x, 'q_lower_y', q_lower.y, 'q_lower_z', q_lower.z)
                 """
-                print('q_upper_w',q_upper.w,'q_upper_x',q_upper.x,'q_upper_y',q_upper.y,'q_upper_z',q_upper.z)
-                print('q_lower_w',q_lower.w,'q_lower_x',q_lower.x,'q_lower_y',q_lower.y,'q_lower_z',q_lower.z)
 
-                # Get the 3D difference between these two orientations
+                "Get the 3D difference between these two orientations"
                 qd = q_upper.conjugate * q_lower
+                print('qd', qd)
 
-                print('qd_w',qd.w,'qd_x',qd.x,'qd_y',qd.y,'qd_z',qd.z)
+                "print('qd_w', qd.w, 'qd_x', qd.x, 'qd_y', qd.y, 'qd_z', qd.z)"
 
-                #ruoto assi
+                "ruoto assi"
+
                 delta_X = qd.rotate(X)
                 delta_Y = qd.rotate(Y)
                 delta_Z = qd.rotate(Z)
 
-                print('delta_X',delta_X, 'delta_Y',delta_Y,'delta_Z',delta_Z)
-
+                print('delta_X', delta_X, 'delta_Y', delta_Y, 'delta_Z', delta_Z)
+                "angolo tra due vettori"
+                """""
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
                 angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
                 angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
 
+                print('angle_X', angle_X, ' angle_Y', angle_Y, ' angle_Z', angle_Z)
+                """
+                phi_upper_rad   = math.atan2( 2 * (q_upper.w * q_upper.x + q_upper.y * q_upper.z), 1 - 2 * (q_upper.x**2 + q_upper.y**2) )
+                theta_upper_rad = math.asin ( 2 * (q_upper.w * q_upper.y - q_upper.z * q_upper.x) )
+                psi_upper_rad   = math.atan2( 2 * (q_upper.w * q_upper.z + q_upper.x * q_upper.y), 1 - 2 * (q_upper.y**2 + q_upper.z**2) )
 
-                print('angle_X',angle_X,' angle_Y',angle_Y,' angle_Z',angle_Z)
+                phi_upper_deg = math.degrees(phi_upper_rad)
+                theta_upper_deg = math.degrees(theta_upper_rad)
+                psi_upper_deg = math.degrees(psi_upper_rad)
 
+                print('phi_upper_deg', phi_upper_deg, 'theta_upper_deg', theta_upper_deg, 'psi_upper_deg', psi_upper_deg)
+
+                phi_lower_rad   = math.atan2( 2 * (q_lower.w * q_lower.x + q_lower.y * q_lower.z), 1 - 2 * (q_lower.x**2 + q_lower.y**2) )
+                theta_lower_rad = math.asin ( 2 * (q_lower.w * q_lower.y - q_lower.z * q_lower.x) )
+                psi_lower_rad   = math.atan2( 2 * (q_lower.w * q_lower.z + q_lower.x * q_lower.y), 1 - 2 * (q_lower.y**2 + q_lower.z**2) )
+
+                phi_lower_deg = math.degrees(phi_lower_rad)
+                theta_lower_deg = math.degrees(theta_lower_rad)
+                psi_lower_deg = math.degrees(psi_lower_rad)
+
+                print('phi_lower_deg', phi_lower_deg, 'theta_lower_deg', theta_lower_deg, 'psi_lower_deg', psi_lower_deg)
 
                 # Calculate Euler angles from this difference quaternion
                 # phi_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
@@ -185,19 +230,20 @@ class MovementsDetector(BaseHandler):
                 # theta_deg = math.degrees(theta_rad) #Y
                 # psi_deg = math.degrees(psi_rad) #Z
                 # maxx1 = abs(math.degrees(qd.angle))
-
-                delta.append([trial,angle_X,angle_Y,angle_Z])
-                """
+                """""
+                delta.append([trial, angle_X, angle_Y, angle_Z])
+                
                 delta.append([angle_X,angle_Y,angle_Z])
                 """
-
+        """""
         #converto in dataframe
         delta = pd.DataFrame(delta)
         delta.rename(columns={0: "trial_number", 1: 'X', 2: 'Y', 3: 'Z'},inplace=True)
         delta['trial_number'] = delta['trial_number'].astype('int')
-        """"
+        
         #inizializzo liste rotazioni orarie e antiorarie
         somma_rotazioni = []
+        
         
         for trial in range(1,quanti_trial+1):
             df_sub = delta[delta['trial_number'] == trial] #seleziono subset x ogni trial
@@ -213,8 +259,12 @@ class MovementsDetector(BaseHandler):
         somma_rotazioni = np.asarray(somma_rotazioni)
 
         return delta, somma_rotazioni
-        """
+        
+ 
         return angle_X, angle_Y, angle_Z
+        """
+        return phi_upper_deg, theta_upper_deg, psi_upper_deg
+        return phi_lower_deg, theta_lower_deg, psi_lower_deg
 
     def set_on_grab_callback(self, on_grab):
         """""
@@ -359,13 +409,14 @@ class MovementsDetector(BaseHandler):
         @param accelerometer:
         @return:
         """
-        print('quaternions',quaternions)
+
+        print('quaternions', quaternions)
 
 
         "handling quaternions"
         "convertion from quaternions to angles"
         quanti_trial_value = 1
-        print('Il dataframe ha',quanti_trial_value,'trials')
+        print('Il dataframe ha', quanti_trial_value, 'trials')
         """""
         "turn right the cube of 90°"
         q1x = 0.019300000742077827
@@ -380,10 +431,11 @@ class MovementsDetector(BaseHandler):
         """
 
         print('quaternions_old', self.quaternions_old)
-
-
-        "angleX, angleY, angleZ = self.compute_angles(q1x, q1y, q1z, q1w, quaternions, quanti_trial_value)"
+        """""
         angleX, angleY, angleZ = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
+        """
+        phi_upper_deg, theta_upper_deg, psi_upper_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
+        phi_lower_deg, theta_lower_deg, psi_lower_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
 
         self.quaternions_old = quaternions
 
