@@ -365,6 +365,7 @@ class MovementsDetector(BaseHandler):
         "phi_upper_deg, theta_upper_deg, psi_upper_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
         "phi_lower_deg, theta_lower_deg, psi_lower_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
         phi_qd, theta_qd, psi_qd = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
+        print ('phi_qd',phi_qd,'theta_qd',theta_qd,'psi_qd',psi_qd)
 
 
         self.quaternions_old = quaternions
