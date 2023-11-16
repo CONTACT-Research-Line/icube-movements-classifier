@@ -96,16 +96,16 @@ class MovementsDetector(BaseHandler):
 
                 print('quat_old', pyp.Quaternion(quaternions_old))
 
-                q_upper = pyp.Quaternion(quaternions_old) * q_calibration.conjugate
+                q_upper = pyp.Quaternion(quaternions_old)
                 print('q_upper', q_upper)
 
                 q_lower = pyp.Quaternion(quaternions)
                 print('q_lower', q_lower)
 
-                
+                """""
                 print('q_upper_w', q_upper.w, 'q_upper_x', q_upper.x, 'q_upper_y', q_upper.y, 'q_upper_z', q_upper.z)
                 print('q_lower_w', q_lower.w, 'q_lower_x', q_lower.x, 'q_lower_y', q_lower.y, 'q_lower_z', q_lower.z)
-
+                """
 
                 "Get the 3D difference between these two orientations"
                 qd = q_upper.conjugate * q_lower
@@ -365,7 +365,7 @@ class MovementsDetector(BaseHandler):
         "phi_upper_deg, theta_upper_deg, psi_upper_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
         "phi_lower_deg, theta_lower_deg, psi_lower_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
         phi_qd, theta_qd, psi_qd = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
-        print ('phi_qd',phi_qd,'theta_qd',theta_qd,'psi_qd',psi_qd)
+        print ('phi_qd', phi_qd, 'theta_qd', theta_qd, 'psi_qd', psi_qd)
 
 
         self.quaternions_old = quaternions
