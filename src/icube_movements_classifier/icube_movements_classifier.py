@@ -184,13 +184,13 @@ class MovementsDetector(BaseHandler):
                 qd = q_upper.conjugate * q_lower
                 print('qd', qd)
 
-                phi_qd_rad  = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
+                phi_qd_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
                 theta_qd_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
                 psi_qd_rad   = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
 
-                phi_qd_deg = math.degrees(phi_qd_rad)
+                phi_qd_deg   = math.degrees(phi_qd_rad)
                 theta_qd_deg = math.degrees(theta_qd_rad)
-                psi_qd_deg = math.degrees(psi_qd_rad)
+                psi_qd_deg   = math.degrees(psi_qd_rad)
 
                 print('phi_qd_deg', phi_qd_deg, 'theta_qd_deg', theta_qd_deg, 'psi_qd_deg', psi_qd_deg)
 
@@ -348,7 +348,7 @@ class MovementsDetector(BaseHandler):
         """
         self.on_turn_downward = on_turn_downward
 
-    def set_on_touch_rightfaceF5_callback(self, on_touch_rightfaceF5):
+    def set_on_touch_rightface_callback(self, on_touch_rightfaceF5):
         """
         What to do when the cube is touched right face F5
         @param on_touch_rightfaceF5: function in format event_trigger(delta_acceleration)
@@ -356,7 +356,7 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_rightfaceF5 = on_touch_rightfaceF5
 
-    def set_on_touch_leftfaceF6_callback(self, on_touch_leftfaceF6):
+    def set_on_touch_leftface_callback(self, on_touch_leftfaceF6):
         """
         What to do when the cube is touched left face F6
         @param on_touch_leftfaceF6: function in format event_trigger(delta_acceleration)
@@ -364,7 +364,7 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_leftfaceF6 = on_touch_leftfaceF6
 
-    def set_on_touch_upleftF1_callback(self, on_touch_upleftF1):
+    def set_on_touch_firstface_upleft_callback(self, on_touch_upleftF1):
         """
         What to do when the cube is touched the up left part of the first face F1
         @param on_touch_upleftF1: function in format event_trigger(delta_acceleration)
@@ -372,7 +372,7 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_upleftF1 = on_touch_upleftF1
 
-    def set_on_touch_uprightF2_callback(self, on_touch_uprightF2):
+    def set_on_touch_firstface_upright_callback(self, on_touch_uprightF2):
         """
         What to do when the cube is touched the up right part of the first face F2
         @param on_touch_uprightF2: function in format event_trigger(delta_acceleration)
@@ -380,7 +380,7 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_uprightF2 = on_touch_uprightF2
 
-    def set_on_touch_downleftF3_callback(self, on_touch_downleftF3):
+    def set_on_touch_firstface_downleft_callback(self, on_touch_downleftF3):
         """
         What to do when the cube is touched the down left part of the first face F3
         @param on_touch_downleftF3: function in format event_trigger(delta_acceleration)
@@ -388,7 +388,7 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_downleftF3 = on_touch_downleftF3
 
-    def set_on_touch_downrightF4_callback(self, on_touch_downrightF4):
+    def set_on_touch_firstface_downright_callback(self, on_touch_downrightF4):
         """
         What to do when the cube is touched the down right part of the first face F4
         @param on_touch_downrightF4: function in format event_trigger(delta_acceleration)
