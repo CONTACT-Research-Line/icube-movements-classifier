@@ -168,7 +168,7 @@ class MovementsDetector(BaseHandler):
                 # maxx1 = abs(math.degrees(qd.angle))
 
 
-        
+        """""
         for trial in range(1,quanti_trial+1):
             df_sub = delta[delta['trial_number'] == trial] #seleziono subset x ogni trial
             df_sub.reset_index(drop=True,inplace=True)
@@ -181,6 +181,7 @@ class MovementsDetector(BaseHandler):
 
         #converto in numpy arrays
         somma_rotazioni = np.asarray(somma_rotazioni)
+        """
 
 
         
