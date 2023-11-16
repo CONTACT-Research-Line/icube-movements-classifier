@@ -185,15 +185,14 @@ class MovementsDetector(BaseHandler):
 
 
         
-
-        return angle_X, angle_Y, angle_Z
         """""
+        return angle_X, angle_Y, angle_Z
+    
         return phi_upper_deg, theta_upper_deg, psi_upper_deg
         
         return phi_lower_deg, theta_lower_deg, psi_lower_deg
-    
+        """
         return phi_qd_deg, theta_qd_deg, psi_qd_deg
-        """""
 
 
     def set_on_grab_callback(self, on_grab):
@@ -361,12 +360,12 @@ class MovementsDetector(BaseHandler):
         """
 
         print('quaternions_old', self.quaternions_old)
-        
-        angleX, angleY, angleZ = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
 
-        phi_upper_deg, theta_upper_deg, psi_upper_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
-        phi_lower_deg, theta_lower_deg, psi_lower_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
-        phi_qd_deg, theta_qd_deg, psi_qd_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
+        "angleX, angleY, angleZ = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
+        "phi_upper_deg, theta_upper_deg, psi_upper_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
+        "phi_lower_deg, theta_lower_deg, psi_lower_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
+        phi_qd, theta_qd, psi_qd = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
+
 
         self.quaternions_old = quaternions
 
