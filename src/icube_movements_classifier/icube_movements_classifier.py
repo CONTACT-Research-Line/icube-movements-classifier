@@ -130,13 +130,13 @@ class MovementsDetector(BaseHandler):
                 print('delta_X', delta_X, 'delta_Y', delta_Y, 'delta_Z', delta_Z)
 
                 "angolo tra due vettori"
-                """""
+
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
                 angle_Y = math.degrees(np.arccos(np.dot(Y, delta_Y) / (np.linalg.norm(Y) * np.linalg.norm(delta_Y))))
                 angle_Z = math.degrees(np.arccos(np.dot(Z, delta_Z) / (np.linalg.norm(Z) * np.linalg.norm(delta_Z))))
 
                 print('angle_X', angle_X, ' angle_Y', angle_Y, ' angle_Z', angle_Z)
-                """
+
                 phi_upper_rad   = math.atan2( 2 * (q_upper.w * q_upper.x + q_upper.y * q_upper.z), 1 - 2 * (q_upper.x**2 + q_upper.y**2) )
                 theta_upper_rad = math.asin ( 2 * (q_upper.w * q_upper.y - q_upper.z * q_upper.x) )
                 psi_upper_rad   = math.atan2( 2 * (q_upper.w * q_upper.z + q_upper.x * q_upper.y), 1 - 2 * (q_upper.y**2 + q_upper.z**2) )
@@ -185,13 +185,15 @@ class MovementsDetector(BaseHandler):
 
 
         
-        """""
+
         return angle_X, angle_Y, angle_Z
-        
+        """""
         return phi_upper_deg, theta_upper_deg, psi_upper_deg
+        
         return phi_lower_deg, theta_lower_deg, psi_lower_deg
-        """
+    
         return phi_qd_deg, theta_qd_deg, psi_qd_deg
+        """""
 
 
     def set_on_grab_callback(self, on_grab):
