@@ -169,7 +169,7 @@ class MovementsDetector(BaseHandler):
                 print('q_upper', q_upper)
 
                 "q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)"
-                q_lower = pyp.Quaternion(quaternions) - q_calibration
+                q_lower = pyp.Quaternion(quaternions)
                 print('q_lower', q_lower)
 
                 """
@@ -184,7 +184,11 @@ class MovementsDetector(BaseHandler):
                 qd = q_upper.conjugate * q_lower
                 print('qd', qd)
 
-                "print('qd_w', qd.w, 'qd_x', qd.x, 'qd_y', qd.y, 'qd_z', qd.z)"
+                phi_upper_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
+                theta_upper_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
+                psi_upper_rad   = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
+
+                print('qd', qd)
 
                 "ruoto assi"
 
@@ -193,6 +197,7 @@ class MovementsDetector(BaseHandler):
                 delta_Z = qd.rotate(Z)
 
                 print('delta_X', delta_X, 'delta_Y', delta_Y, 'delta_Z', delta_Z)
+                
                 "angolo tra due vettori"
                 """""
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
