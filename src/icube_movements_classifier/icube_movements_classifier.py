@@ -184,11 +184,15 @@ class MovementsDetector(BaseHandler):
                 qd = q_upper.conjugate * q_lower
                 print('qd', qd)
 
-                phi_upper_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
-                theta_upper_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
-                psi_upper_rad   = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
+                phi_qd_rad  = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
+                theta_qd_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
+                psi_qd_rad   = math.atan2( 2 * (qd.w * qd.z + qd.x * qd.y), 1 - 2 * (qd.y**2 + qd.z**2) )
 
-                print('qd', qd)
+                phi_qd_deg = math.degrees(phi_qd_rad)
+                theta_qd_deg = math.degrees(theta_qd_rad)
+                psi_qd_deg = math.degrees(psi_qd_rad)
+
+                print('phi_qd_deg', phi_qd_deg, 'theta_qd_deg', theta_qd_deg, 'psi_qd_deg', psi_qd_deg)
 
                 "ruoto assi"
 
@@ -197,7 +201,7 @@ class MovementsDetector(BaseHandler):
                 delta_Z = qd.rotate(Z)
 
                 print('delta_X', delta_X, 'delta_Y', delta_Y, 'delta_Z', delta_Z)
-                
+
                 "angolo tra due vettori"
                 """""
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
@@ -270,6 +274,7 @@ class MovementsDetector(BaseHandler):
         """
         return phi_upper_deg, theta_upper_deg, psi_upper_deg
         return phi_lower_deg, theta_lower_deg, psi_lower_deg
+        return phi_qd_deg, theta_qd_deg, psi_qd_deg
 
     def set_on_grab_callback(self, on_grab):
         """""
@@ -441,6 +446,7 @@ class MovementsDetector(BaseHandler):
         """
         phi_upper_deg, theta_upper_deg, psi_upper_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
         phi_lower_deg, theta_lower_deg, psi_lower_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
+        phi_qd_deg, theta_qd_deg, psi_qd_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
 
         self.quaternions_old = quaternions
 
