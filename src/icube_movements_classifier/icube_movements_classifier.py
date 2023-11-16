@@ -75,78 +75,9 @@ class MovementsDetector(BaseHandler):
 
         delta = []
 
-        """""
-        df_quat = df.loc[:,['trial_number','quaternion_w','quaternion_x','quaternion_y','quaternion_z']]
-        df_quat = df_quat.astype('float')
-
-        #converto trial number in intero
-        df_quat['trial_number'] = df_quat['trial_number'].astype('int')
-        """
-
         for trial in range(1,quanti_trial+1):
-            """""
-            df_sub = df_quat[df_quat['trial_number'] == trial] #seleziono subset x ogni trial
 
-            lista = df_sub.iloc[:,1:].values.tolist()
-
-            for i in range(len(lista)-1):
-            """
             for i in range(1,2):
-                """""
-                "start position of the cube"
-                q1x = 0.028300000354647636
-                q1y = -0.72009998559951782
-                q1z = 0.0057000000961124897
-                q1w = 0.69330000877380371
-                q2x = 0.028300000354647636
-                q2y = -0.72009998559951782
-                q2z = 0.0057000000961124897
-                q2w = 0.69330000877380371
-                """
-                """""
-                "turn right the cube of 90°"
-                q1x = 0.019300000742077827
-                q1y = -0.72030001878738403
-                q1z = 0.0013000000035390258
-                q1w = 0.69340002536773682
-                q2x = 0.52310001850128174
-                q2y = -0.49180001020431519
-                q2z = -0.48879998922348022
-                q2w = 0.49559998512268066
-                """
-                """
-                "turn left the cube of -90°"
-                q1x = -0.21420000493526459
-                q1y = -0.67479997873306274
-                q1z = -0.23059999942779541
-                q1w = 0.66750001907348633
-                q2x = -0.63569998741149902
-                q2y = -0.30880001187324524
-                q2z = 0.28690001368522644
-                q2w = 0.64670002460479736
-                """
-                """""
-                "turn upward the cube"
-                q1x = -0.25260001420974731
-                q1y = -0.65950000286102295
-                q1z = -0.26589998602867126
-                q1w = 0.65609997510910034
-                q2x = -0.0059000002220273018
-                q2y = 0.0020000000949949026
-                q2z = -0.30120000243186951
-                q2w = 0.95359998941421509
-                """
-                """""
-                "turn downward the cube"
-                q1x = -0.18719999492168427
-                q1y = -0.68040001392364502
-                q1z = -0.2020999938249588
-                q1w = 0.67909997701644897
-                q2x = -0.33410000801086426
-                q2y = -0.94230002164840698
-                q2z = -0.0013000000035390258
-                q2w = 0.019799999892711639
-                """
 
                 q1w = 0.69290000200271606
                 q1x = 0.021199999377131462
@@ -157,28 +88,24 @@ class MovementsDetector(BaseHandler):
 
                 print('q_calibration', q_calibration)
 
-                "print ('q_calibration_w', q_calibration.w, 'q_calibration_x', q_calibration.x, 'q_calibration_y', q_calibration.y, 'q_calibration_z', q_calibration.z)"
+
 
                 q_calib = q_calibration * q_calibration.conjugate
                 print('q_calib', q_calib)
 
-                "q_upper = pyp.Quaternion(q1w,q1x,q1y,q1z)"
+
                 print('quat_old', pyp.Quaternion(quaternions_old))
 
                 q_upper = pyp.Quaternion(quaternions_old) * q_calibration.conjugate
                 print('q_upper', q_upper)
 
-                "q_lower = pyp.Quaternion(q2w,q2x,q2y,q2z)"
                 q_lower = pyp.Quaternion(quaternions)
                 print('q_lower', q_lower)
 
-                """
-                q_upper = pyq.Quaternion(lista[i][0],lista[i][1],lista[i][2],lista[i][3])
-                q_lower = pyq.Quaternion(lista[i+1][0],lista[i+1][1],lista[i+1][2],lista[i+1][3])
                 
                 print('q_upper_w', q_upper.w, 'q_upper_x', q_upper.x, 'q_upper_y', q_upper.y, 'q_upper_z', q_upper.z)
                 print('q_lower_w', q_lower.w, 'q_lower_x', q_lower.x, 'q_lower_y', q_lower.y, 'q_lower_z', q_lower.z)
-                """
+
 
                 "Get the 3D difference between these two orientations"
                 qd = q_upper.conjugate * q_lower
@@ -239,20 +166,8 @@ class MovementsDetector(BaseHandler):
                 # theta_deg = math.degrees(theta_rad) #Y
                 # psi_deg = math.degrees(psi_rad) #Z
                 # maxx1 = abs(math.degrees(qd.angle))
-                """""
-                delta.append([trial, angle_X, angle_Y, angle_Z])
-                
-                delta.append([angle_X,angle_Y,angle_Z])
-                """
-        """""
-        #converto in dataframe
-        delta = pd.DataFrame(delta)
-        delta.rename(columns={0: "trial_number", 1: 'X', 2: 'Y', 3: 'Z'},inplace=True)
-        delta['trial_number'] = delta['trial_number'].astype('int')
-        
-        #inizializzo liste rotazioni orarie e antiorarie
-        somma_rotazioni = []
-        
+
+
         
         for trial in range(1,quanti_trial+1):
             df_sub = delta[delta['trial_number'] == trial] #seleziono subset x ogni trial
@@ -267,14 +182,16 @@ class MovementsDetector(BaseHandler):
         #converto in numpy arrays
         somma_rotazioni = np.asarray(somma_rotazioni)
 
-        return delta, somma_rotazioni
+
         
- 
+        """""
         return angle_X, angle_Y, angle_Z
-        """
+        
         return phi_upper_deg, theta_upper_deg, psi_upper_deg
         return phi_lower_deg, theta_lower_deg, psi_lower_deg
+        """
         return phi_qd_deg, theta_qd_deg, psi_qd_deg
+
 
     def set_on_grab_callback(self, on_grab):
         """""
