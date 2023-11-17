@@ -146,7 +146,7 @@ class MovementsDetector(BaseHandler):
                 psi_upper_deg = math.degrees(psi_upper_rad)
 
                 print('phi_upper_deg', phi_upper_deg, 'theta_upper_deg', theta_upper_deg, 'psi_upper_deg', psi_upper_deg)
-
+                """""
                 phi_lower_rad   = math.atan2( 2 * (q_lower.w * q_lower.x + q_lower.y * q_lower.z), 1 - 2 * (q_lower.x**2 + q_lower.y**2) )
                 theta_lower_rad = math.asin ( 2 * (q_lower.w * q_lower.y - q_lower.z * q_lower.x) )
                 psi_lower_rad   = math.atan2( 2 * (q_lower.w * q_lower.z + q_lower.x * q_lower.y), 1 - 2 * (q_lower.y**2 + q_lower.z**2) )
@@ -156,6 +156,7 @@ class MovementsDetector(BaseHandler):
                 psi_lower_deg = math.degrees(psi_lower_rad)
 
                 print('phi_lower_deg', phi_lower_deg, 'theta_lower_deg', theta_lower_deg, 'psi_lower_deg', psi_lower_deg)
+                """
 
                 # Calculate Euler angles from this difference quaternion
                 # phi_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
@@ -185,7 +186,7 @@ class MovementsDetector(BaseHandler):
 
 
         
-        """""
+        """"
         return angle_X, angle_Y, angle_Z
     
         return phi_upper_deg, theta_upper_deg, psi_upper_deg
