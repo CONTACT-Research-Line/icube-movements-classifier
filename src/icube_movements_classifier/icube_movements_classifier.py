@@ -137,6 +137,7 @@ class MovementsDetector(BaseHandler):
 
                 print('angle_X', angle_X, ' angle_Y', angle_Y, ' angle_Z', angle_Z)
 
+                """""
                 phi_upper_rad   = math.atan2( 2 * (q_upper.w * q_upper.x + q_upper.y * q_upper.z), 1 - 2 * (q_upper.x**2 + q_upper.y**2) )
                 theta_upper_rad = math.asin ( 2 * (q_upper.w * q_upper.y - q_upper.z * q_upper.x) )
                 psi_upper_rad   = math.atan2( 2 * (q_upper.w * q_upper.z + q_upper.x * q_upper.y), 1 - 2 * (q_upper.y**2 + q_upper.z**2) )
@@ -146,7 +147,7 @@ class MovementsDetector(BaseHandler):
                 psi_upper_deg = math.degrees(psi_upper_rad)
 
                 print('phi_upper_deg', phi_upper_deg, 'theta_upper_deg', theta_upper_deg, 'psi_upper_deg', psi_upper_deg)
-                """""
+                
                 phi_lower_rad   = math.atan2( 2 * (q_lower.w * q_lower.x + q_lower.y * q_lower.z), 1 - 2 * (q_lower.x**2 + q_lower.y**2) )
                 theta_lower_rad = math.asin ( 2 * (q_lower.w * q_lower.y - q_lower.z * q_lower.x) )
                 psi_lower_rad   = math.atan2( 2 * (q_lower.w * q_lower.z + q_lower.x * q_lower.y), 1 - 2 * (q_lower.y**2 + q_lower.z**2) )
