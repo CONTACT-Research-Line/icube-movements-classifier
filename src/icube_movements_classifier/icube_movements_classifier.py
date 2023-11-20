@@ -88,11 +88,8 @@ class MovementsDetector(BaseHandler):
 
                 print('q_calibration', q_calibration)
 
-
-
                 q_calib = q_calibration * q_calibration.conjugate
                 print('q_calib', q_calib)
-
 
                 print('quat_old', pyp.Quaternion(quaternions_old))
 
@@ -401,6 +398,10 @@ class MovementsDetector(BaseHandler):
                 self.on_grab()
 
         if self.icube_state == MovementState.GRABBED:
+            if phi_qd < 0 and theta_qd < 0 and psi_qd < 0
+                self.icube_state = MovementState.TURNED_RIGHT
+                self.on_turn_right()
+
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TURNED_RIGHT
                 self.on_turn_right()
