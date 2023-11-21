@@ -73,12 +73,13 @@ class MovementsDetector(BaseHandler):
         Y = [0, 1, 0]
         Z = [0, 0, 1]
 
-        delta = []
+
+        "delta = []"
 
         for trial in range(1,quanti_trial+1):
 
             for i in range(1,2):
-
+                """""
                 q1w = 0.69290000200271606
                 q1x = 0.021199999377131462
                 q1y = -0.72079998254776001
@@ -90,6 +91,7 @@ class MovementsDetector(BaseHandler):
 
                 q_calib = q_calibration * q_calibration.conjugate
                 print('q_calib', q_calib)
+                """
 
                 print('quat_old', pyp.Quaternion(quaternions_old))
 
@@ -126,6 +128,7 @@ class MovementsDetector(BaseHandler):
 
                 print('delta_X', delta_X, 'delta_Y', delta_Y, 'delta_Z', delta_Z)
 
+                """""
                 "angolo tra due vettori"
 
                 angle_X = math.degrees(np.arccos(np.dot(X, delta_X) / (np.linalg.norm(X) * np.linalg.norm(delta_X))))
@@ -134,7 +137,7 @@ class MovementsDetector(BaseHandler):
 
                 print('angle_X', angle_X, ' angle_Y', angle_Y, ' angle_Z', angle_Z)
 
-                """""
+                
                 phi_upper_rad   = math.atan2( 2 * (q_upper.w * q_upper.x + q_upper.y * q_upper.z), 1 - 2 * (q_upper.x**2 + q_upper.y**2) )
                 theta_upper_rad = math.asin ( 2 * (q_upper.w * q_upper.y - q_upper.z * q_upper.x) )
                 psi_upper_rad   = math.atan2( 2 * (q_upper.w * q_upper.z + q_upper.x * q_upper.y), 1 - 2 * (q_upper.y**2 + q_upper.z**2) )
@@ -182,8 +185,6 @@ class MovementsDetector(BaseHandler):
         somma_rotazioni = np.asarray(somma_rotazioni)
         """
 
-
-        
         """"
         return angle_X, angle_Y, angle_Z
     
@@ -192,6 +193,16 @@ class MovementsDetector(BaseHandler):
         return phi_lower_deg, theta_lower_deg, psi_lower_deg
         """
         return phi_qd_deg, theta_qd_deg, psi_qd_deg
+
+    def touch_face(self, sensor_values):
+        index_sensor_touches = sensor_values(1)
+        row = index_sensor_touches // 4
+        column = index_sensor_touches % 4
+        faces = ["upper face", "lower face", "frontal face", "posterior face", "right face", "left face"]
+        touching_face = faces [row * 2 + column //2]
+        print ("touching face is: ", touching_face)
+        return touching_face
+
 
 
     def set_on_grab_callback(self, on_grab):
@@ -363,8 +374,13 @@ class MovementsDetector(BaseHandler):
         "angleX, angleY, angleZ = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
         "phi_upper_deg, theta_upper_deg, psi_upper_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
         "phi_lower_deg, theta_lower_deg, psi_lower_deg = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)"
+
         phi_qd, theta_qd, psi_qd = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
         print ('phi_qd', phi_qd, 'theta_qd', theta_qd, 'psi_qd', psi_qd)
+
+        touch_face = self.touch_face(sensor_values)
+        print ("touch face is: ", touch_face)
+
 
 
         self.quaternions_old = quaternions
@@ -408,7 +424,7 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if phi_qd > 0 and theta_qd > 0 and psi_qd >0:
+            if phi_qd > 0 and theta_qd > 0 and psi_qd > 0:
                  self.icube_state = MovementState.TURNED_LEFT
                  self.on_turn_left()
 
@@ -431,7 +447,7 @@ class MovementsDetector(BaseHandler):
             if phi_qd > 0 and theta_qd > 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_DOWNWARD
                 self.on_turn_downward()
-                
+
         if self.icube_state == MovementState.TURNED_DOWNWARD:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
