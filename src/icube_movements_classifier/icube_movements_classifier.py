@@ -396,7 +396,19 @@ class MovementsDetector(BaseHandler):
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
-
+            if phi_qd < 0 and theta_qd < 0 and psi_qd < 0:
+                self.icube_state = MovementState.TURNED_RIGHT
+                self.on_turn_right()
+            if phi_qd > 0 and theta_qd > 0 and psi_qd >0:
+                 self.icube_state = MovementState.TURNED_LEFT
+                 self.on_turn_left()
+            if phi_qd < 0 and theta_qd > 0 and psi_qd <0:
+                self.icube_state = MovementState.TURNED_UPWARD
+                self.on_turn_upward()
+            if phi_qd > 0 and theta_qd > 0 and psi_qd < 0:
+                self.icube_state = MovementState.TURNED_DOWNWARD
+                self.on_turn_downward()
+        """""
         if self.icube_state == MovementState.GRABBED:
             if phi_qd < 0 and theta_qd < 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_RIGHT
@@ -407,20 +419,17 @@ class MovementsDetector(BaseHandler):
             if phi_qd < 0 and theta_qd > 0 and psi_qd <0:
                 self.icube_state = MovementState.TURNED_UPWARD
                 self.on_turn_upward()
-            if phi_qd >0 and theta_qd > 0 and psi_qd < 0:
+            if phi_qd > 0 and theta_qd > 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_DOWNWARD
                 self.on_turn_downward()
 
             
-
-
-
-            """""
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TURNED_RIGHT
                 self.on_turn_right()
-            """
-        """""
+            
+
+
         if self.icube_state == MovementState.TURNED_RIGHT:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TURNED_LEFT
