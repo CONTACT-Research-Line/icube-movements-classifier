@@ -493,35 +493,66 @@ class MovementsDetector(BaseHandler):
                 self.on_turn_downward()
         """
 
-        if self.icube_state == MovementState.TURNED_DOWNWARD:
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_RIGHTFACEF5
                 self.on_touch_rightfaceF5()
 
         if self.icube_state == MovementState.TOUCH_RIGHTFACEF5:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_LEFTFACEF6
                 self.on_touch_leftfaceF6()
 
         if self.icube_state == MovementState.TOUCH_LEFTFACEF6:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_UPLEFTF1
                 self.on_touch_upleftF1()
 
         if self.icube_state == MovementState.TOUCH_UPLEFTF1:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_UPRIGHTF2
                 self.on_touch_uprightF2()
 
         if self.icube_state == MovementState.TOUCH_UPRIGHTF2:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_DOWNLEFTF3
                 self.on_touch_downleftF3()
 
         if self.icube_state == MovementState.TOUCH_DOWNLEFTF3:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+
+        if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.TOUCH_DOWNRIGHTF4
                 self.on_touch_downrightF4()
+
+        if self.icube_state == MovementState.TOUCH_DOWNRIGHTF4:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
 
         if self.icube_state in [MovementState.GRABBED, MovementState.TOUCH_DOWNRIGHTF4]:
             if self.__icube_posed(touches):
