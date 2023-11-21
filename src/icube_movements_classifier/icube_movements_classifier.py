@@ -378,7 +378,8 @@ class MovementsDetector(BaseHandler):
         phi_qd, theta_qd, psi_qd = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
         print ('phi_qd', phi_qd, 'theta_qd', theta_qd, 'psi_qd', psi_qd)
 
-        touch_face = self.touch_face(sensor_values)
+        sensor_values_simulated = "0000000000010000"
+        touch_face = self.touch_face(sensor_values_simulated)
         print ("touch face is: ", touch_face)
 
 
