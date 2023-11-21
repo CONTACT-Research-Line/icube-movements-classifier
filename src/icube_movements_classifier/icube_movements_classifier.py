@@ -195,7 +195,7 @@ class MovementsDetector(BaseHandler):
         return phi_qd_deg, theta_qd_deg, psi_qd_deg
 
     def touch_face(self, sensor_values):
-        index_sensor_touches = sensor_values.index(1)
+        index_sensor_touches = sensor_values.index('1')
         row = index_sensor_touches // 4
         column = index_sensor_touches % 4
         faces = ["upper face", "lower face", "frontal face", "posterior face", "right face", "left face"]
