@@ -412,15 +412,30 @@ class MovementsDetector(BaseHandler):
                  self.icube_state = MovementState.TURNED_LEFT
                  self.on_turn_left()
 
+        if self.icube_state == MovementState.TURNED_LEFT:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
         if self.icube_state == MovementState.POSED:
             if phi_qd < 0 and theta_qd > 0 and psi_qd <0:
                 self.icube_state = MovementState.TURNED_UPWARD
                 self.on_turn_upward()
 
+        if self.icube_state == MovementState.TURNED_UPWARD:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
         if self.icube_state == MovementState.POSED:
             if phi_qd > 0 and theta_qd > 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_DOWNWARD
                 self.on_turn_downward()
+                
+        if self.icube_state == MovementState.TURNED_DOWNWARD:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
 
         """""
         if self.icube_state == MovementState.GRABBED:
