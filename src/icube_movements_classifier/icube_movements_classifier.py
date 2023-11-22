@@ -407,6 +407,7 @@ class MovementsDetector(BaseHandler):
                 self.on_grab()
 
         if self.icube_state == MovementState.POSED:
+            print('                                                             ', phi_qd)
             if phi_qd > +10 and theta_qd > 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_RIGHT
                 self.on_turn_right()
