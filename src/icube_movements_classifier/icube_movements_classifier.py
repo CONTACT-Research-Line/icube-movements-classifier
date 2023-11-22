@@ -408,7 +408,7 @@ class MovementsDetector(BaseHandler):
 
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
-            if phi_qd > +10 and theta_qd > 0 and psi_qd < 0:
+            if phi_qd > +2 and theta_qd > 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_RIGHT
                 self.on_turn_right()
 
@@ -418,7 +418,7 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if phi_qd < -10 and theta_qd > +10 and psi_qd > +10:
+            if phi_qd < -2 and theta_qd > 0 and psi_qd > 0:
                  self.icube_state = MovementState.TURNED_LEFT
                  self.on_turn_left()
 
@@ -428,7 +428,7 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if phi_qd < -10 and theta_qd > +10 and psi_qd < -10:
+            if phi_qd < -2 and theta_qd > 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_UPWARD
                 self.on_turn_upward()
 
@@ -438,7 +438,7 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if phi_qd > +10 and theta_qd < -10 and psi_qd < -10:
+            if phi_qd > +2 and theta_qd < 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_DOWNWARD
                 self.on_turn_downward()
 
