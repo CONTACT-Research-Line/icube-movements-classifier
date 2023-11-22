@@ -388,7 +388,7 @@ class MovementsDetector(BaseHandler):
         "CUBO APPOGGIATO AL TAVOLO"
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
-            if phi_qd > +2 and theta_qd > 0 and psi_qd < 0:
+            if phi_qd < -2 and theta_qd > 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_CLOCKWISE
                 self.on_turn_clockwise()
 
@@ -400,7 +400,7 @@ class MovementsDetector(BaseHandler):
         "CUBO APPOGGIATO AL TAVOLO"
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
-            if phi_qd < -2 and theta_qd < 0 and psi_qd > 0:
+            if phi_qd > +2 and theta_qd < 0 and psi_qd > 0:
                  self.icube_state = MovementState.TURNED_ANTICLOCKWISE
                  self.on_turn_anticlockwise()
 
