@@ -194,6 +194,7 @@ class MovementsDetector(BaseHandler):
         """
         return phi_qd_deg, theta_qd_deg, psi_qd_deg
 
+    """""
     def touch_face(self, sensor_values):
         index_sensor_touches = sensor_values.index('1')
         row = index_sensor_touches // 4
@@ -202,7 +203,7 @@ class MovementsDetector(BaseHandler):
         touching_face = faces [row * 2 + column //2]
         print ("touching face is: ", touching_face)
         return touching_face
-
+    """
 
 
     def set_on_grab_callback(self, on_grab):
@@ -354,19 +355,10 @@ class MovementsDetector(BaseHandler):
 
         "handling quaternions"
         "convertion from quaternions to angles"
+
         quanti_trial_value = 1
-        print('Il dataframe ha', quanti_trial_value, 'trials')
         """""
-        "turn right the cube of 90°"
-        q1x = 0.019300000742077827
-        q1y = -0.72030001878738403
-        q1z = 0.0013000000035390258
-        q1w = 0.69340002536773682
-        
-        q2x = 0.52310001850128174
-        q2y = -0.49180001020431519
-        q2z = -0.48879998922348022
-        q2w = 0.49559998512268066
+        print('Il dataframe ha', quanti_trial_value, 'trials')
         """
 
         print('quaternions_old', self.quaternions_old)
@@ -378,11 +370,11 @@ class MovementsDetector(BaseHandler):
         phi_qd, theta_qd, psi_qd = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
         print ('phi_qd', phi_qd, 'theta_qd', theta_qd, 'psi_qd', psi_qd)
 
+        """""
         sensor_values_simulated = "1111111111111111"
         touch_face = self.touch_face(sensor_values_simulated)
         print ("touch face is: ", touch_face)
-
-
+        """
 
         self.quaternions_old = quaternions
 
