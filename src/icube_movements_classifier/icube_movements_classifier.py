@@ -504,6 +504,14 @@ class MovementsDetector(BaseHandler):
                  self.icube_state = MovementState.TURNED_ANTICLOCKWISE
                  self.on_turn_anticlockwise()
 
+        "stop rotation"
+        if self.icube_state == MovementState.IDLE:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+
+
         """""
         if self.icube_state == MovementState.GRABBED:
             if phi_qd < 0 and theta_qd < 0 and psi_qd < 0:
