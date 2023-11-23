@@ -385,7 +385,8 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
         """
-        "CUBO APPOGGIATO AL TAVOLO"
+        
+        "clockwise turn of the cube"
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
             if phi_qd < -2 and theta_qd < 0 and psi_qd < 0:
@@ -397,7 +398,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "CUBO APPOGGIATO AL TAVOLO"
+        "anticlockwise turned of the cube"
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
             if phi_qd > +2 and theta_qd > 0 and psi_qd > 0:
@@ -409,7 +410,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "MODIFICARE, ANGOLO PER ROTAZIONE A DESTRA"
+        "right rotation of the cube"
         if self.icube_state == MovementState.POSED:
             if phi_qd < 0 and theta_qd > 0 and psi_qd < -2:
                 self.icube_state = MovementState.ROTATE_RIGHT
@@ -420,7 +421,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "MODIFICARE, ANGOLO PER ROTAZIONE A SINISTRA"
+        "left rotation of the cube"
         if self.icube_state == MovementState.POSED:
             if phi_qd > 0 and theta_qd < 0 and psi_qd > +2:
                 self.icube_state = MovementState.ROTATE_LEFT
@@ -431,7 +432,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "rotazione in avanti del cubo"
+        "forward rotation of the cube"
         if self.icube_state == MovementState.POSED:
             if phi_qd < 0 and theta_qd > 2 and psi_qd < 0:
                 self.icube_state = MovementState.ROTATE_FORWARD
@@ -442,7 +443,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "rotazione indietro del cubo"
+        "backward rotation of the cube"
         if self.icube_state == MovementState.POSED:
             if phi_qd > 0 and theta_qd < -2 and psi_qd < 0:
                 self.icube_state = MovementState.ROTATE_BACKWARD
@@ -468,33 +469,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.TURNED_DOWNWARD
                 self.on_turn_downward()
 
-            
-            if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.TURNED_RIGHT
-                self.on_turn_right()
-            
-
-
-        if self.icube_state == MovementState.TURNED_RIGHT:
-            if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.TURNED_LEFT
-                self.on_turn_left()
-        
-
-        if self.icube_state == MovementState.TURNED_LEFT:
-            if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.TURNED_UPWARD
-                self.on_turn_upward()
-
-        if self.icube_state == MovementState.TURNED_UPWARD:
-            if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.TURNED_DOWNWARD
-                self.on_turn_downward()
         """
-
-
-
-
 
         """""
         if self.icube_state == MovementState.POSED:
