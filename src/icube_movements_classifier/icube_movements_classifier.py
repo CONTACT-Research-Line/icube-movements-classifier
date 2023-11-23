@@ -31,7 +31,7 @@ class MovementState(enum.Enum):
     TOUCH_FIRSTFACE_UPRIGHT = 15
     TOUCH_FIRSTFACE_DOWNLEFT = 16
     TOUCH_FIRSTFACE_DOWNRIGHT = 17
-    IDOLE = 18
+    IDOL = 18
 
 
 class MovementsDetector(BaseHandler):
@@ -68,7 +68,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_firstface_upright = None
         self.on_touch_firstface_downleft = None
         self.on_touch_firstface_downright = None
-        self.on_idole = None
+        self.on_idol = None
 
     def compute_angles(self, quaternions_old, quaternions, quanti_trial):
 
@@ -320,13 +320,13 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_firstface_downright = on_touch_firstface_downright
 
-    def set_on_idole_callback (self, on_idole):
+    def set_on_idol_callback (self, on_idol):
         """
         What to do when there is the end of the rotation of the cube and the state became neutral
-        @param on_idole: function in format event_trigger(delta_acceleration)
+        @param on_idol: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_idole = on_idole
+        self.on_idol = on_idol
 
 
     def __icube_posed(self, touches):
@@ -352,9 +352,11 @@ class MovementsDetector(BaseHandler):
         @param accelerometer:
         @return:
         """
-        "define the function variables"
 
+        "define the function variables"
         delta = 1
+        angle_zero = 0
+
 
         print('quaternions', quaternions)
 
@@ -403,7 +405,7 @@ class MovementsDetector(BaseHandler):
         "clockwise turn of the cube"
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
-            if phi_qd < -5 and theta_qd < 0 and psi_qd < 0:
+            if phi_qd < -5 and theta_qd < angle_zero and psi_qd < angle_zero:
                 self.icube_state = MovementState.TURNED_CLOCKWISE
                 self.on_turn_clockwise()
 
@@ -415,7 +417,7 @@ class MovementsDetector(BaseHandler):
         "anticlockwise turned of the cube"
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
-            if phi_qd > +5 and theta_qd > 0 and psi_qd > 0:
+            if phi_qd > +5 and theta_qd > angle_zero and psi_qd > angle_zero:
                  self.icube_state = MovementState.TURNED_ANTICLOCKWISE
                  self.on_turn_anticlockwise()
 
@@ -426,19 +428,19 @@ class MovementsDetector(BaseHandler):
 
         "right rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd < 0 and theta_qd > 0 and psi_qd < -5:
+            if phi_qd < angle_zero and theta_qd > angle_zero and psi_qd < -5:
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
 
         "neutral state"
         if self.icube_state == MovementState.ROTATE_RIGHT:
             if psi_qd < 0 + delta and psi_qd > 0 - delta:
-                self.icube_state = MovementState.IDOLE
-                self.on_idole()
+                self.icube_state = MovementState.IDOL
+                self.on_idol()
 
         "left rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd > 0 and theta_qd < 0 and psi_qd > +5:
+            if phi_qd > angle_zero and theta_qd < angle_zero and psi_qd > +5:
                 self.icube_state = MovementState.ROTATE_LEFT
                 self.on_rotate_left()
 
@@ -449,7 +451,7 @@ class MovementsDetector(BaseHandler):
 
         "forward rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd < 0 and theta_qd > 5 and psi_qd < 0:
+            if phi_qd < angle_zero and theta_qd > +5 and psi_qd < angle_zero:
                 self.icube_state = MovementState.ROTATE_FORWARD
                 self.on_rotate_forward()
 
@@ -460,7 +462,7 @@ class MovementsDetector(BaseHandler):
 
         "backward rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd > 0 and theta_qd < -5 and psi_qd < 0:
+            if phi_qd > angle_zero and theta_qd < -5 and psi_qd < angle_zero:
                 self.icube_state = MovementState.ROTATE_BACKWARD
                 self.on_rotate_backward()
 
