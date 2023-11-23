@@ -395,12 +395,12 @@ class MovementsDetector(BaseHandler):
         self.delta_movement = np.linalg.norm(accelerometer - self.init_acc)
         if self.delta_movement > 0:
             self.on_move(self.delta_movement)
-        """""
+
         if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
-        """
+
 
         "clockwise turn of the cube"
         if self.icube_state == MovementState.POSED:
@@ -427,13 +427,10 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         "right rotation of the cube"
-        if self.icube_state == MovementState.POSED:
+        if self.icube_state == MovementState.GRABBED:
             if phi_qd < angle_zero and theta_qd > angle_zero and psi_qd < -5:
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
-            if phi_qd > angle_zero and theta_qd < angle_zero and psi_qd > +5:
-                self.icube_state = MovementState.ROTATE_LEFT
-                self.on_rotate_left()
 
         "neutral state"
         if self.icube_state == MovementState.ROTATE_RIGHT:
@@ -441,7 +438,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.IDOL
                 self.on_idol()
 
-        """""
+
         "left rotation of the cube"
         if self.icube_state == MovementState.POSED:
             if phi_qd > angle_zero and theta_qd < angle_zero and psi_qd > +5:
@@ -453,7 +450,7 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
-        """
+
 
         "forward rotation of the cube"
         if self.icube_state == MovementState.POSED:
