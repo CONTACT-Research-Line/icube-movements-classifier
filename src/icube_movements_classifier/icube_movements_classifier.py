@@ -458,7 +458,7 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.ROTATE_LEFT:
             if psi_qd < 0 + delta and psi_qd > 0 - delta:
                 self.icube_state = MovementState.IDLE
-                self.on_pose()
+                self.on_idle()
 
         if self.icube_state == MovementState.IDLE:
             if phi_qd > threshold_zero and theta_qd < threshold_zero and psi_qd > +5:
