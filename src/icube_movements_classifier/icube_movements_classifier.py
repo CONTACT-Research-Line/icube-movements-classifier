@@ -415,11 +415,12 @@ class MovementsDetector(BaseHandler):
             if phi_qd < 0 and theta_qd > 0 and psi_qd < -5:
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
-
+        """""
         if self.icube_state == MovementState.ROTATE_RIGHT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+        """
 
         "left rotation of the cube"
         if self.icube_state == MovementState.POSED:
