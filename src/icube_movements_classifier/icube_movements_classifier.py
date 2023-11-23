@@ -444,7 +444,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
 
-        if self.icube_state == MovementState.ROTATE_RIGHT:
+        if self.icube_state == MovementState.IDLE:
              if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
