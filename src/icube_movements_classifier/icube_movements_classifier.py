@@ -359,6 +359,7 @@ class MovementsDetector(BaseHandler):
         threshold = 4
 
         print('quaternions', quaternions)
+        print ('touches', touches)
 
         "handling quaternions"
         "convertion from quaternions to angles"
