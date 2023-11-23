@@ -68,7 +68,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_firstface_upright = None
         self.on_touch_firstface_downleft = None
         self.on_touch_firstface_downright = None
-        self.on_idole() = None
+        self.on_idole = None
 
     def compute_angles(self, quaternions_old, quaternions, quanti_trial):
 
