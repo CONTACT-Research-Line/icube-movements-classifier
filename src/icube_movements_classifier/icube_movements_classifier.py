@@ -31,7 +31,7 @@ class MovementState(enum.Enum):
     TOUCH_FIRSTFACE_UPRIGHT = 15
     TOUCH_FIRSTFACE_DOWNLEFT = 16
     TOUCH_FIRSTFACE_DOWNRIGHT = 17
-    IDOL = 18
+    IDLE = 18
 
 
 class MovementsDetector(BaseHandler):
@@ -68,7 +68,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_firstface_upright = None
         self.on_touch_firstface_downleft = None
         self.on_touch_firstface_downright = None
-        self.on_idol = None
+        self.on_idle = None
 
     def compute_angles(self, quaternions_old, quaternions, quanti_trial):
 
@@ -320,13 +320,13 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_firstface_downright = on_touch_firstface_downright
 
-    def set_on_idol_callback (self, on_idol):
+    def set_on_idle_callback (self, on_idle):
         """
         What to do when there is the end of the rotation of the cube and the state became neutral
-        @param on_idol: function in format event_trigger(delta_acceleration)
+        @param on_idle: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_idol = on_idol
+        self.on_idle = on_idle
 
 
     def __icube_posed(self, touches):
@@ -356,7 +356,7 @@ class MovementsDetector(BaseHandler):
         "define the function variables"
         delta = 1
         threshold_zero = 0
-        threshold =  5
+        threshold = 5
 
         print('quaternions', quaternions)
 
@@ -436,9 +436,13 @@ class MovementsDetector(BaseHandler):
         "neutral state"
         if self.icube_state == MovementState.ROTATE_RIGHT:
             if psi_qd < 0 + delta and psi_qd > 0 - delta:
-                self.icube_state = MovementState.IDOL
-                self.on_idol()
+                self.icube_state = MovementState.IDLE
+                self.on_idle()
 
+        if self.icube_state == MovementState.IDLE:
+            if phi_qd < threshold_zero and theta_qd > threshold_zero and psi_qd < -5:
+                self.icube_state = MovementState.ROTATE_RIGHT
+                self.on_rotate_right()
 
         "left rotation of the cube"
         if self.icube_state == MovementState.POSED:
