@@ -444,8 +444,13 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
 
+        if self.icube_state == MovementState.ROTATE_RIGHT:
+             if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
         "left rotation of the cube"
-        if self.icube_state == MovementState.IDLE:
+        if self.icube_state == MovementState.POSED:
             if phi_qd > threshold_zero and theta_qd < threshold_zero and psi_qd > +5:
                 self.icube_state = MovementState.ROTATE_LEFT
                 self.on_rotate_left()
@@ -454,6 +459,12 @@ class MovementsDetector(BaseHandler):
             if psi_qd < 0 - delta and psi_qd > 0 + delta:
                 self.icube_state = MovementState.IDLE
                 self.on_pose()
+
+        if self.icube_state == MovementState.IDLE:
+            if phi_qd > threshold_zero and theta_qd < threshold_zero and psi_qd > +5:
+                self.icube_state = MovementState.ROTATE_LEFT
+                self.on_rotate_left()
+
 
         "forward rotation of the cube"
         if self.icube_state == MovementState.POSED:
