@@ -354,9 +354,9 @@ class MovementsDetector(BaseHandler):
         """
 
         "define the function variables"
-        delta = 0.6
+        delta = 0.8
         threshold_zero = 0
-        threshold = 5
+        threshold = 4
 
         print('quaternions', quaternions)
 
@@ -403,33 +403,9 @@ class MovementsDetector(BaseHandler):
                 self.on_grab()
         """
 
-        "clockwise turn of the cube"
-        if self.icube_state == MovementState.POSED:
-            print('                                                             ', phi_qd)
-            if phi_qd < -3 and theta_qd < threshold_zero and psi_qd < threshold_zero:
-                self.icube_state = MovementState.TURNED_CLOCKWISE
-                self.on_turn_clockwise()
-
-        if self.icube_state == MovementState.TURNED_CLOCKWISE:
-            if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.on_pose()
-
-        "anticlockwise turned of the cube"
-        if self.icube_state == MovementState.POSED:
-            print('                                                             ', phi_qd)
-            if phi_qd > +3 and theta_qd > threshold_zero and psi_qd > threshold_zero:
-                 self.icube_state = MovementState.TURNED_ANTICLOCKWISE
-                 self.on_turn_anticlockwise()
-
-        if self.icube_state == MovementState.TURNED_ANTICLOCKWISE:
-            if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.on_pose()
-
         "right rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd < threshold_zero and theta_qd > threshold_zero and psi_qd < -3:
+            if phi_qd < threshold_zero and theta_qd > threshold_zero and psi_qd < -threshold:
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
 
@@ -440,19 +416,13 @@ class MovementsDetector(BaseHandler):
                 self.on_idle()
 
         if self.icube_state == MovementState.IDLE:
-            if phi_qd < threshold_zero and theta_qd > threshold_zero and psi_qd < -3:
+            if phi_qd < threshold_zero and theta_qd > threshold_zero and psi_qd < -threshold:
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
-        """""
-        if self.icube_state == MovementState.IDLE:
-             if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.on_pose()
-        """
 
         "left rotation of the cube"
         if self.icube_state == MovementState.IDLE:
-            if phi_qd > threshold_zero and theta_qd < threshold_zero and psi_qd > +3:
+            if phi_qd > threshold_zero and theta_qd < threshold_zero and psi_qd > +threshold:
                 self.icube_state = MovementState.ROTATE_LEFT
                 self.on_rotate_left()
 
@@ -462,33 +432,77 @@ class MovementsDetector(BaseHandler):
                 self.on_idle()
 
         if self.icube_state == MovementState.IDLE:
-            if phi_qd > threshold_zero and theta_qd < threshold_zero and psi_qd > +3:
+            if phi_qd > threshold_zero and theta_qd < threshold_zero and psi_qd > +threshold:
                 self.icube_state = MovementState.ROTATE_LEFT
                 self.on_rotate_left()
 
 
         "forward rotation of the cube"
-        if self.icube_state == MovementState.POSED:
-            if phi_qd < threshold_zero and theta_qd > +3 and psi_qd < threshold_zero:
+        if self.icube_state == MovementState.IDLE:
+            if phi_qd < threshold_zero and theta_qd > +threshold and psi_qd < threshold_zero:
                 self.icube_state = MovementState.ROTATE_FORWARD
                 self.on_rotate_forward()
 
         if self.icube_state == MovementState.ROTATE_FORWARD:
-            if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.on_pose()
+            if theta_qd < 0 + delta and theta_qd > 0 - delta:
+                self.icube_state = MovementState.IDLE
+                self.on_idle()
+
+        if self.icube_state == MovementState.IDLE:
+            if phi_qd < threshold_zero and theta_qd > +threshold and psi_qd < threshold_zero:
+                self.icube_state = MovementState.ROTATE_FORWARD
+                self.on_rotate_forward()
 
 
         "backward rotation of the cube"
-        if self.icube_state == MovementState.POSED:
-            if phi_qd > threshold_zero and theta_qd < -3 and psi_qd < threshold_zero:
+        if self.icube_state == MovementState.IDLE:
+            if phi_qd > threshold_zero and theta_qd < -threshold and psi_qd < threshold_zero:
                 self.icube_state = MovementState.ROTATE_BACKWARD
                 self.on_rotate_backward()
 
         if self.icube_state == MovementState.ROTATE_BACKWARD:
-            if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.on_pose()
+            if theta_qd < 0 + delta and theta_qd > 0 - delta:
+                self.icube_state = MovementState.IDLE
+                self.on_idle()
+
+        if self.icube_state == MovementState.IDLE:
+            if phi_qd > threshold_zero and theta_qd < -threshold and psi_qd < threshold_zero:
+                self.icube_state = MovementState.ROTATE_BACKWARD
+                self.on_rotate_backward()
+
+        "clockwise turn of the cube"
+        if self.icube_state == MovementState.IDLE:
+            print('                                                             ', phi_qd)
+            if phi_qd < -threshold and theta_qd < threshold_zero and psi_qd < threshold_zero:
+                self.icube_state = MovementState.TURNED_CLOCKWISE
+                self.on_turn_clockwise()
+
+        if self.icube_state == MovementState.TURNED_CLOCKWISE:
+            if phi_qd < 0 + delta and phi_qd > 0 - delta:
+                self.icube_state = MovementState.IDLE
+                self.on_idle()
+
+        if self.icube_state == MovementState.IDLE:
+            if phi_qd < -threshold and theta_qd < threshold_zero and psi_qd < threshold_zero:
+                self.icube_state = MovementState.TURNED_CLOCKWISE
+                self.on_turn_clockwise()
+
+        "anticlockwise turned of the cube"
+        if self.icube_state == MovementState.IDLE:
+            print('                                                             ', phi_qd)
+            if phi_qd > +threshold and theta_qd > threshold_zero and psi_qd > threshold_zero:
+                 self.icube_state = MovementState.TURNED_ANTICLOCKWISE
+                 self.on_turn_anticlockwise()
+
+        if self.icube_state == MovementState.TURNED_ANTICLOCKWISE:
+            if phi_qd < 0 + delta and phi_qd > 0 - delta:
+                self.icube_state = MovementState.IDLE
+                self.on_idle()
+
+        if self.icube_state == MovementState.IDLE:
+            if phi_qd > +threshold and theta_qd > threshold_zero and psi_qd > threshold_zero:
+                 self.icube_state = MovementState.TURNED_ANTICLOCKWISE
+                 self.on_turn_anticlockwise()
 
         """""
         if self.icube_state == MovementState.GRABBED:
