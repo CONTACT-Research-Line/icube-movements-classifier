@@ -389,8 +389,11 @@ class MovementsDetector(BaseHandler):
         print('quaternions', quaternions)
         print ('touches', touches)
         first = [touches[0]]
-        below = [touches[6]]
+        right = [touches[1]]
+        left = [touches[4]]
         print ('first', first)
+        print ('right', right)
+        print ('left', left)
 
         "handling quaternions"
         "convertion from quaternions to angles"
@@ -559,7 +562,7 @@ class MovementsDetector(BaseHandler):
         """
 
         if self.icube_state == MovementState.POSED:
-            if self.__icube_posed(touches[6]):
+            if self.__icube_posed(touches[1]):
                 self.icube_state = MovementState.TOUCH_RIGHTFACE
                 self.on_touch_rightface()
 
