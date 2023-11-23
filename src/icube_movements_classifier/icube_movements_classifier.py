@@ -541,8 +541,6 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-
-
         """""
         if self.icube_state == MovementState.GRABBED:
             if phi_qd < 0 and theta_qd < 0 and psi_qd < 0:
@@ -557,12 +555,10 @@ class MovementsDetector(BaseHandler):
             if phi_qd > 0 and theta_qd > 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_DOWNWARD
                 self.on_turn_downward()
-
         """
 
-
         if self.icube_state == MovementState.POSED:
-            if self.__icube_right_face(touches):
+            if self.__icube_posed(touches[2]):
                 self.icube_state = MovementState.TOUCH_RIGHTFACE
                 self.on_touch_rightface()
 
