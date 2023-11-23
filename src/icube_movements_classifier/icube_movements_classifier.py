@@ -31,6 +31,7 @@ class MovementState(enum.Enum):
     TOUCH_FIRSTFACE_UPRIGHT = 15
     TOUCH_FIRSTFACE_DOWNLEFT = 16
     TOUCH_FIRSTFACE_DOWNRIGHT = 17
+    IDOLE = 18
 
 
 class MovementsDetector(BaseHandler):
@@ -67,6 +68,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_firstface_upright = None
         self.on_touch_firstface_downleft = None
         self.on_touch_firstface_downright = None
+        self.on_idole() = None
 
     def compute_angles(self, quaternions_old, quaternions, quanti_trial):
 
@@ -318,6 +320,15 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_firstface_downright = on_touch_firstface_downright
 
+    def set_on_idole_callback (self, on_idole):
+        """
+        What to do when there is the end of the rotation of the cube and the state became neutral
+        @param on_idole: function in format event_trigger(delta_acceleration)
+        @return:
+        """
+        self.on_idole = on_idole
+
+
     def __icube_posed(self, touches):
         """
         Classify if the iCube is posed based on touches
@@ -341,6 +352,9 @@ class MovementsDetector(BaseHandler):
         @param accelerometer:
         @return:
         """
+        "define the function variables"
+
+        delta = 1
 
         print('quaternions', quaternions)
 
@@ -415,12 +429,12 @@ class MovementsDetector(BaseHandler):
             if phi_qd < 0 and theta_qd > 0 and psi_qd < -5:
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
-        """""
+
+        "neutral state"
         if self.icube_state == MovementState.ROTATE_RIGHT:
-            if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.on_pose()
-        """
+            if psi_qd < 0 + delta and psi_qd > 0 - delta:
+                self.icube_state = MovementState.IDOLE
+                self.on_idole()
 
         "left rotation of the cube"
         if self.icube_state == MovementState.POSED:
