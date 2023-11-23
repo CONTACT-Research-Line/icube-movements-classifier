@@ -389,7 +389,7 @@ class MovementsDetector(BaseHandler):
         "clockwise turn of the cube"
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
-            if phi_qd < -10 and theta_qd < 0 and psi_qd < 0:
+            if phi_qd < -5 and theta_qd < 0 and psi_qd < 0:
                 self.icube_state = MovementState.TURNED_CLOCKWISE
                 self.on_turn_clockwise()
 
@@ -401,7 +401,7 @@ class MovementsDetector(BaseHandler):
         "anticlockwise turned of the cube"
         if self.icube_state == MovementState.POSED:
             print('                                                             ', phi_qd)
-            if phi_qd > +10 and theta_qd > 0 and psi_qd > 0:
+            if phi_qd > +5 and theta_qd > 0 and psi_qd > 0:
                  self.icube_state = MovementState.TURNED_ANTICLOCKWISE
                  self.on_turn_anticlockwise()
 
@@ -412,7 +412,7 @@ class MovementsDetector(BaseHandler):
 
         "right rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd < 0 and theta_qd > 0 and psi_qd < -10:
+            if phi_qd < 0 and theta_qd > 0 and psi_qd < -5:
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
 
@@ -423,7 +423,7 @@ class MovementsDetector(BaseHandler):
 
         "left rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd > 0 and theta_qd < 0 and psi_qd > +10:
+            if phi_qd > 0 and theta_qd < 0 and psi_qd > +5:
                 self.icube_state = MovementState.ROTATE_LEFT
                 self.on_rotate_left()
 
@@ -434,7 +434,7 @@ class MovementsDetector(BaseHandler):
 
         "forward rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd < 0 and theta_qd > 10 and psi_qd < 0:
+            if phi_qd < 0 and theta_qd > 5 and psi_qd < 0:
                 self.icube_state = MovementState.ROTATE_FORWARD
                 self.on_rotate_forward()
 
@@ -445,7 +445,7 @@ class MovementsDetector(BaseHandler):
 
         "backward rotation of the cube"
         if self.icube_state == MovementState.POSED:
-            if phi_qd > 0 and theta_qd < -10 and psi_qd < 0:
+            if phi_qd > 0 and theta_qd < -5 and psi_qd < 0:
                 self.icube_state = MovementState.ROTATE_BACKWARD
                 self.on_rotate_backward()
 
