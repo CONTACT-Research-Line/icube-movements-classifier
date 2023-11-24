@@ -396,7 +396,7 @@ class MovementsDetector(BaseHandler):
             return False
         full_covered_faces = touches.count(touches[0])
         touched_faces = ["1" in t for t in touches].count(True)
-        return full_covered_faces == 1 and touched_faces == 2
+        return full_covered_faces == 0 and touched_faces == 2
 
 
     def __icube_corner_face (self, touches):
@@ -411,7 +411,7 @@ class MovementsDetector(BaseHandler):
             return False
         full_covered_faces = touches.count(touches[0])
         print ('>>>>>>>>>>>>>>>>>full_covered_faces_top', full_covered_faces)
-        if touches[0]  == '1000000000000000':
+        if touches[0] == '1000000000000000':
             print ('top_left', touches[0])
             return 'top_left'
         elif touches[0] == '0001000000000000':
