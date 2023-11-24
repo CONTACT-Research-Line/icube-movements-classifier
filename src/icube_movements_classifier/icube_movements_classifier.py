@@ -31,7 +31,8 @@ class MovementState(enum.Enum):
     TOUCH_FIRSTFACE_UPRIGHT = 15
     TOUCH_FIRSTFACE_DOWNLEFT = 16
     TOUCH_FIRSTFACE_DOWNRIGHT = 17
-    IDLE = 18
+    TOUCH_TOPFACE = 18
+    IDLE = 19
 
 
 class MovementsDetector(BaseHandler):
@@ -68,6 +69,7 @@ class MovementsDetector(BaseHandler):
         self.on_touch_firstface_upright = None
         self.on_touch_firstface_downleft = None
         self.on_touch_firstface_downright = None
+        self.on_touch_topface = None
         self.on_idle = None
 
     def compute_angles(self, quaternions_old, quaternions, quanti_trial):
@@ -320,6 +322,15 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_firstface_downright = on_touch_firstface_downright
 
+    def set_on_touch_topface_callback(self, on_touch_topface):
+        """
+        What to do when the cube is touched top face
+        @param on_touch_topface: function in format event_trigger(delta_acceleration)
+        @return:
+        """
+        self.on_touch_topface = on_touch_topface
+
+
     def set_on_idle_callback (self, on_idle):
         """
         What to do when there is the end of the rotation of the cube and the state became neutral
@@ -372,18 +383,23 @@ class MovementsDetector(BaseHandler):
         full_covered_faces = touches.count(touches[4])
         touched_faces = ["1" in t for t in touches].count(True)
         return full_covered_faces == 1 and touched_faces == 2
-    """""
-    def __icube_top_face (self, touches):
 
-        
+    def __icube_top_face (self, touches):
+        """
+        Classify if the iCube is posed based on touches
+        If only one face is fully active the cube is posed somewhere
+        Otherwise the cube is held
+        @param touches: a set of touches form the iCube
+        @return: True if touched
+        """
         if touches is None:
             return False
         full_covered_faces = touches.count(touches[0])
         touched_faces = ["1" in t for t in touches].count(True)
         return full_covered_faces == 1 and touched_faces == 2
-    """
 
-    def __icube_corner_face (self, touches, face_id):
+
+    def __icube_corner_face (self, touches):
         """
         Classify if the iCube is posed based on touches
         If only one face is fully active the cube is posed somewhere
@@ -395,17 +411,20 @@ class MovementsDetector(BaseHandler):
             return False
         full_covered_faces = touches.count(touches[0])
         print ('>>>>>>>>>>>>>>>>>full_covered_faces_top', full_covered_faces)
-        if full_covered_faces < 4:
-            """""
-            touched_faces = ["1" in t for t in touches].count(True)
-            touches[face_id]
-            """
-            print ('face_id', touches[face_id])
+        if touches[0]  == '1000000000000000':
+            print ('top_left', touches[0])
             return 'top_left'
+        elif touches[0] == '0001000000000000':
+            print ('top_right', touches[0])
+            return 'top_right'
+        elif touches[0] == '0000000000001000':
+            print ('bottom_left', touches[0])
+            return 'bottom_left'
+        elif touches[0] == '0000000000000001':
+            print ('bottom_right', touches[0])
+            return 'bottom_right'
         else:
-            return False
-
-
+            return 'other'
 
 
     def handle(self, quaternions, touches, accelerometer):
@@ -599,10 +618,32 @@ class MovementsDetector(BaseHandler):
 
         "touch right face"
         if self.icube_state == MovementState.POSED:
+            if self.__icube_top_face(touches):
+                if (self.__icube_corner_face(touches) == 'tl'):
+                    "topleft"
+                    self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
+                    self.on_touch_firstface_upleft()
+                elif (self.__icube_corner_face(touches) == 'tr'):
+                    "topright"
+                    self.icube_state = MovementState.TOUCH_FIRSTFACE_UPRIGHT
+                    self.on_touch_firstface_upright()
+                elif (self.__icube_corner_face(touches) == 'bl'):
+                    "bottomleft"
+                    self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNLEFT
+                    self.on_touch_firstface_downleft()
+                elif (self.__icube_corner_face(touches) == 'br'):
+                    "bottomright"
+                    self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNRIGHT
+                    self.on_touch_firstface_downright()
+                else:
+                    self.icube_state = MovementState.TOUCH_TOPFACE
+                    self.on_touch_topface()
+
+        "touch right face"
+        if self.icube_state == MovementState.POSED:
             if self.__icube_right_face(touches):
                 self.icube_state = MovementState.TOUCH_RIGHTFACE
                 self.on_touch_rightface()
-
 
         if self.icube_state == MovementState.TOUCH_RIGHTFACE:
             if self.__icube_posed(touches):
