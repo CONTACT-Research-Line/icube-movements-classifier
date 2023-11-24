@@ -580,7 +580,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.TURNED_DOWNWARD
                 self.on_turn_downward()
         """
-        """""
+
         if self.icube_state == MovementState.POSED:
             if self.__icube_right_face(touches):
                 self.icube_state = MovementState.TOUCH_RIGHTFACE
@@ -590,7 +590,7 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.TOUCH_RIGHTFACE:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
-        """
+        """""
 
         if self.icube_state == MovementState.POSED:
             if self.__icube_left_face(touches):
@@ -601,6 +601,8 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+        """
+        
         """""
         if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
