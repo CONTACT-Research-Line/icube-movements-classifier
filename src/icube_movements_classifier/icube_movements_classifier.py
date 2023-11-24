@@ -357,7 +357,7 @@ class MovementsDetector(BaseHandler):
         print('full_covered_faces', full_covered_faces)
         touched_faces = ["1" in t for t in touches].count(True)
         print('touched_faces', touched_faces)
-        return full_covered_faces == 1 and touched_faces == 1
+        return full_covered_faces == 1 and touched_faces == 2
 
     def __icube_left_face (self, touches):
         """
