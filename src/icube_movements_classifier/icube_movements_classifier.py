@@ -372,20 +372,16 @@ class MovementsDetector(BaseHandler):
         full_covered_faces = touches.count(touches[4])
         touched_faces = ["1" in t for t in touches].count(True)
         return full_covered_faces == 1 and touched_faces == 2
-
+    """""
     def __icube_top_face (self, touches):
-        """
-        Classify if the iCube is posed based on touches
-        If only one face is fully active the cube is posed somewhere
-        Otherwise the cube is held. Touching only one element of the top face, activates the function.
-        @param touches: a set of touches form the iCube
-        @return: True if touched
-        """
+
+        
         if touches is None:
             return False
         full_covered_faces = touches.count(touches[0])
         touched_faces = ["1" in t for t in touches].count(True)
         return full_covered_faces == 1 and touched_faces == 2
+    """
 
     def __icube_corner_face (self, touches, face_id):
         """
@@ -397,7 +393,8 @@ class MovementsDetector(BaseHandler):
         """
         if touches is None:
             return False
-        full_covered_faces = touches.count(touches[face_id])
+        full_covered_faces = touches.count(touches[0])
+        print ('>>>>>>>>>>>>>>>>>full_covered_faces_top', full_covered_faces)
         if full_covered_faces < 4:
             """""
             touched_faces = ["1" in t for t in touches].count(True)
@@ -419,7 +416,7 @@ class MovementsDetector(BaseHandler):
         @param accelerometer:
         @return:
         """
-        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>state', self.icube_state)
+        "print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>state', self.icube_state)"
         "define the function variables"
         delta = 0.8
         threshold_zero = 0
