@@ -347,7 +347,7 @@ class MovementsDetector(BaseHandler):
         """
         Classify if the iCube is posed based on touches
         If only one face is fully active the cube is posed somewhere
-        Otherwise the cube is held
+        Otherwise the cube is held. Touching only one element of the right face, activates the function.
         @param touches: a set of touches form the iCube
         @return: True if touched
         """
@@ -363,7 +363,7 @@ class MovementsDetector(BaseHandler):
         """
         Classify if the iCube is posed based on touches
         If only one face is fully active the cube is posed somewhere
-        Otherwise the cube is held. il tocco di un solo elemento della faccia attiva la funzione
+        Otherwise the cube is held. Touching only one element of the left face, activates the function.
         @param touches: a set of touches form the iCube
         @return: True if touched
         """
@@ -377,7 +377,7 @@ class MovementsDetector(BaseHandler):
         """
         Classify if the iCube is posed based on touches
         If only one face is fully active the cube is posed somewhere
-        Otherwise the cube is held
+        Otherwise the cube is held. Touching only one element of the top face, activates the function.
         @param touches: a set of touches form the iCube
         @return: True if touched
         """
@@ -624,7 +624,7 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches, face_id=1):
+            if self.__icube_corner_face(touches, face_id=0):
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
                 self.on_touch_firstface_upleft()
 
