@@ -390,12 +390,6 @@ class MovementsDetector(BaseHandler):
 
         print('quaternions', quaternions)
         print ('touches', touches)
-        first = [touches[0]]
-        right = [touches[1]]
-        left = [touches[4]]
-        print ('first', first)
-        print ('right', right)
-        print ('left', left)
 
         "handling quaternions"
         "convertion from quaternions to angles"
