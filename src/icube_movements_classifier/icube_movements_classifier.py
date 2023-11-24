@@ -662,7 +662,7 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches, face_id=0):
+            if self.__icube_corner_face(touches):
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
                 self.on_touch_firstface_upleft()
 
