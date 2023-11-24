@@ -399,8 +399,10 @@ class MovementsDetector(BaseHandler):
             return False
         full_covered_faces = touches.count(touches[face_id])
         if full_covered_faces < 4:
-            "touched_faces = ["1" in t for t in touches].count(True)"
-            "touches[face_id]"
+            """""
+            touched_faces = ["1" in t for t in touches].count(True)
+            touches[face_id]
+            """
             print ('face_id', touches[face_id])
             return 'top_left'
         else
