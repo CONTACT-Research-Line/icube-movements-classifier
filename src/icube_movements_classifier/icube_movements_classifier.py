@@ -380,7 +380,7 @@ class MovementsDetector(BaseHandler):
         @param accelerometer:
         @return:
         """
-
+        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>state', self.icube_state)
         "define the function variables"
         delta = 0.8
         threshold_zero = 0
