@@ -405,7 +405,7 @@ class MovementsDetector(BaseHandler):
             """
             print ('face_id', touches[face_id])
             return 'top_left'
-        else
+        else:
             return False
 
 
