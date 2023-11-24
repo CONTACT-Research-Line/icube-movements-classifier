@@ -83,13 +83,13 @@ class MovementsDetector(BaseHandler):
 
             for i in range(1,2):
 
-                print('quat_old', pyp.Quaternion(quaternions_old))
+                "print('quat_old', pyp.Quaternion(quaternions_old))"
 
                 q_upper = pyp.Quaternion(quaternions_old)
-                print('q_upper', q_upper)
+                "print('q_upper', q_upper)"
 
                 q_lower = pyp.Quaternion(quaternions)
-                print('q_lower', q_lower)
+                "print('q_lower', q_lower)"
 
                 """""
                 print('q_upper_w', q_upper.w, 'q_upper_x', q_upper.x, 'q_upper_y', q_upper.y, 'q_upper_z', q_upper.z)
@@ -98,7 +98,7 @@ class MovementsDetector(BaseHandler):
 
                 "Get the 3D difference between these two orientations"
                 qd = q_upper.conjugate * q_lower
-                print('qd', qd)
+                "print('qd', qd)"
 
                 phi_qd_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
                 theta_qd_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
@@ -354,7 +354,9 @@ class MovementsDetector(BaseHandler):
         if touches is None:
             return False
         full_covered_faces = touches.count(touches[1])
+        print('full_covered_faces', full_covered_faces)
         touched_faces = ["1" in t for t in touches].count(True)
+        print('touched_faces', touched_faces)
         return full_covered_faces == 1 and touched_faces == 1
 
     def __icube_left_face (self, touches):
@@ -402,10 +404,10 @@ class MovementsDetector(BaseHandler):
         """""
         print('Il dataframe ha', quanti_trial_value, 'trials')
         """
-        print('quaternions_old', self.quaternions_old)
+        "print('quaternions_old', self.quaternions_old)"
 
         phi_qd, theta_qd, psi_qd = self.compute_angles(self.quaternions_old, quaternions, quanti_trial_value)
-        print ('phi_qd', phi_qd, 'theta_qd', theta_qd, 'psi_qd', psi_qd)
+        "print ('phi_qd', phi_qd, 'theta_qd', theta_qd, 'psi_qd', psi_qd)"
 
         self.quaternions_old = quaternions
 
