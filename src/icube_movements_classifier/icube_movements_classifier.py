@@ -394,7 +394,7 @@ class MovementsDetector(BaseHandler):
         """
         if touches is None:
             return False
-        full_covered_faces = touches.count(touches[5])
+        full_covered_faces = touches.count(touches[0])
         touched_faces = ["1" in t for t in touches].count(True)
         return full_covered_faces == 1 and touched_faces == 2
 
@@ -619,25 +619,32 @@ class MovementsDetector(BaseHandler):
         "touch right face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
-                if (self.__icube_corner_face(touches) == 'tl'):
+                if self.__icube_corner_face(touches) == 'tl':
                     "topleft"
                     self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
                     self.on_touch_firstface_upleft()
-                elif (self.__icube_corner_face(touches) == 'tr'):
+                elif self.__icube_corner_face(touches) == 'tr':
                     "topright"
                     self.icube_state = MovementState.TOUCH_FIRSTFACE_UPRIGHT
                     self.on_touch_firstface_upright()
-                elif (self.__icube_corner_face(touches) == 'bl'):
+                elif self.__icube_corner_face(touches) == 'bl':
                     "bottomleft"
                     self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNLEFT
                     self.on_touch_firstface_downleft()
-                elif (self.__icube_corner_face(touches) == 'br'):
+                elif self.__icube_corner_face(touches) == 'br':
                     "bottomright"
                     self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNRIGHT
                     self.on_touch_firstface_downright()
                 else:
                     self.icube_state = MovementState.TOUCH_TOPFACE
                     self.on_touch_topface()
+
+        if self.icube_state == MovementState.TOUCH_TOPFACE:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+
 
         "touch right face"
         if self.icube_state == MovementState.POSED:
