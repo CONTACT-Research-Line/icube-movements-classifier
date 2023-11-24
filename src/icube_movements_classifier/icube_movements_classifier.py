@@ -373,6 +373,20 @@ class MovementsDetector(BaseHandler):
         touched_faces = ["1" in t for t in touches].count(True)
         return full_covered_faces == 1 and touched_faces == 2
 
+    def __icube_top_face (self, touches):
+        """
+        Classify if the iCube is posed based on touches
+        If only one face is fully active the cube is posed somewhere
+        Otherwise the cube is held
+        @param touches: a set of touches form the iCube
+        @return: True if touched
+        """
+        if touches is None:
+            return False
+        full_covered_faces = touches.count(touches[0])
+        touched_faces = ["1" in t for t in touches].count(True)
+        return full_covered_faces == 1 and touched_faces == 2
+
 
     def handle(self, quaternions, touches, accelerometer):
         """
@@ -434,7 +448,7 @@ class MovementsDetector(BaseHandler):
                 self.on_grab()
         """
 
-        "right rotation of the cube"
+        "from pose to different rotation"
         if self.icube_state == MovementState.POSED:
             if phi_qd < threshold_zero and theta_qd > threshold_zero and psi_qd < -threshold:
                 self.icube_state = MovementState.ROTATE_RIGHT
@@ -493,7 +507,6 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.ROTATE_LEFT
                 self.on_rotate_left()
 
-
         "forward rotation of the cube"
         if self.icube_state == MovementState.IDLE:
             if phi_qd < threshold_zero and theta_qd > +threshold and psi_qd < threshold_zero:
@@ -509,7 +522,6 @@ class MovementsDetector(BaseHandler):
             if phi_qd < threshold_zero and theta_qd > +threshold and psi_qd < threshold_zero:
                 self.icube_state = MovementState.ROTATE_FORWARD
                 self.on_rotate_forward()
-
 
         "backward rotation of the cube"
         if self.icube_state == MovementState.IDLE:
@@ -565,34 +577,19 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        """""
-        if self.icube_state == MovementState.GRABBED:
-            if phi_qd < 0 and theta_qd < 0 and psi_qd < 0:
-                self.icube_state = MovementState.TURNED_RIGHT
-                self.on_turn_right()
-            if phi_qd > 0 and theta_qd > 0 and psi_qd >0:
-                 self.icube_state = MovementState.TURNED_LEFT
-                 self.on_turn_left()
-            if phi_qd < 0 and theta_qd > 0 and psi_qd <0:
-                self.icube_state = MovementState.TURNED_UPWARD
-                self.on_turn_upward()
-            if phi_qd > 0 and theta_qd > 0 and psi_qd < 0:
-                self.icube_state = MovementState.TURNED_DOWNWARD
-                self.on_turn_downward()
-        """
-
+        "touch right face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_right_face(touches):
                 self.icube_state = MovementState.TOUCH_RIGHTFACE
                 self.on_touch_rightface()
-                print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< state', self.icube_state)
+
 
         if self.icube_state == MovementState.TOUCH_RIGHTFACE:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-
+        "touch left face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_left_face(touches):
                 self.icube_state = MovementState.TOUCH_LEFTFACE
@@ -602,11 +599,9 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
-        
 
-        """""
         if self.icube_state == MovementState.POSED:
-            if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
+            if self.__icube_top_face(touches):
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
                 self.on_touch_firstface_upleft()
 
@@ -614,6 +609,7 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+        """""
 
         if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
