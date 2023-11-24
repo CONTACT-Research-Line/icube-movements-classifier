@@ -353,7 +353,7 @@ class MovementsDetector(BaseHandler):
         """
         if touches is None:
             return False
-        full_covered_faces = touches.count(touches[1]) and touches.count(CUBE_POSED_FACE)
+        full_covered_faces = touches.count(touches[1])
         print('full_covered_faces', full_covered_faces)
         touched_faces = ["1" in t for t in touches].count(True)
         print('touched_faces', touched_faces)
@@ -370,7 +370,7 @@ class MovementsDetector(BaseHandler):
         if touches is None:
             return False
         full_covered_faces = touches.count(touches[4])
-        touched_faces = ["1" in t for t in touches].count(True)
+        touched_faces = ["2" in t for t in touches].count(True)
         return full_covered_faces == 1 and touched_faces == 1
 
 
