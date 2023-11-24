@@ -398,7 +398,7 @@ class MovementsDetector(BaseHandler):
         if touches is None:
             return False
         full_covered_faces = touches.count(touches[face_id])
-        if full_covered_faces < 5:
+        if full_covered_faces > 4:
             """""
             touched_faces = ["1" in t for t in touches].count(True)
             touches[face_id]
