@@ -397,6 +397,16 @@ class MovementsDetector(BaseHandler):
         return full_covered_faces == 1 and touched_faces == 2
 
 
+
+    def __icube_cornerleft_face (self, touches):
+        if touches is None:
+            return False
+        if touches[0] == '1000000000000000':
+            print ('top_left', touches[0])
+            return 'top_left'
+        touched_faces = ["1" in t for t in touches].count(True)
+        return touched_faces == 2
+
     def __icube_corner_face (self, touches):
         """
         Classify if the iCube is posed based on touches
@@ -616,10 +626,11 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches) == 'tl' and self.__icube_top_face(touches):
-                "topleft"
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
-                self.on_touch_firstface_upleft()
+            if self.__icube_top_face(touches):
+                if self.__icube_cornerleft_face(touches) == 'tl':
+                    "topleft"
+                    self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
+                    self.on_touch_firstface_upleft()
 
         """""
         "touch top face"
