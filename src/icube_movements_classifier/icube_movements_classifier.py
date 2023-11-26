@@ -394,7 +394,7 @@ class MovementsDetector(BaseHandler):
             return False
         full_covered_faces = touches.count(touches[0])
         touched_faces = ["1" in t for t in touches].count(True)
-        return full_covered_faces == 1 and touched_faces == 1
+        return full_covered_faces == 1 and touched_faces == 2
 
 
     def __icube_corner_face (self, touches):
@@ -665,17 +665,6 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
-        """""
-        if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches):
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
-                self.on_touch_firstface_upleft()
-
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_UPLEFT:
-            if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.on_pose()
-        """
         """""
 
         if self.icube_state == MovementState.POSED:
