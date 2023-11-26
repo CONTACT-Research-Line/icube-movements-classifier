@@ -411,6 +411,10 @@ class MovementsDetector(BaseHandler):
         full_covered_faces = touches.count(touches[0])
         print ('>>>>>>>>>>>>>>>>>full_covered_faces_top', full_covered_faces)
         """
+        full_covered_faces = touches.count(touches[0])
+        touched_faces = ["1" in t for t in touches].count(True)
+        return full_covered_faces == 1 and touched_faces == 2
+
         if touches[0] == '1000000000000000':
             print ('top_left', touches[0])
             return 'top_left'
@@ -425,9 +429,6 @@ class MovementsDetector(BaseHandler):
             return 'bottom_right'
         else:
             return 'other'
-
-        touched_faces = ["1" in t for t in touches].count(True)
-        return touched_faces == 2
 
 
     def handle(self, quaternions, touches, accelerometer):
