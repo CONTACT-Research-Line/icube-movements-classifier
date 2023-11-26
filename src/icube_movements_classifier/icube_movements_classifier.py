@@ -425,6 +425,7 @@ class MovementsDetector(BaseHandler):
             return 'bottom_right'
         else:
             return 'other'
+
         touched_faces = ["1" in t for t in touches].count(True)
         return touched_faces == 2
 
@@ -618,7 +619,14 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "touch right face"
+        if self.icube_state == MovementState.POSED:
+            if self.__icube_corner_face(touches) == 'tl':
+                "topleft"
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
+                self.on_touch_firstface_upleft()
+
+        """""
+        "touch top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
                 if self.__icube_corner_face(touches) == 'tl':
@@ -645,7 +653,7 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
-
+            """
 
 
         "touch right face"
