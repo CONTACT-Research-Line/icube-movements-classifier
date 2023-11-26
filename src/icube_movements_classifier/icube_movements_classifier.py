@@ -407,8 +407,10 @@ class MovementsDetector(BaseHandler):
         """
         if touches is None:
             return False
+        """""
         full_covered_faces = touches.count(touches[0])
         print ('>>>>>>>>>>>>>>>>>full_covered_faces_top', full_covered_faces)
+        """
         if touches[0] == '1000000000000000':
             print ('top_left', touches[0])
             return 'top_left'
