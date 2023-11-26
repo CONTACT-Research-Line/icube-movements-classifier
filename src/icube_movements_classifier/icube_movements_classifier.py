@@ -423,6 +423,8 @@ class MovementsDetector(BaseHandler):
             return 'bottom_right'
         else:
             return 'other'
+        touched_faces = ["1" in t for t in touches].count(True)
+        return touched_faces == 2
 
 
     def handle(self, quaternions, touches, accelerometer):
