@@ -401,11 +401,10 @@ class MovementsDetector(BaseHandler):
     def __icube_cornerleft_face (self, touches):
         if touches is None:
             return False
-        if touches[0] == '1000000000000000':
-            print ('top_left', touches[0])
-            return 'top_left'
+        full_covered_faces = touches.count(touches[0] == '1000000000000000')
+        print ('top_left', full_covered_faces)
         touched_faces = ["1" in t for t in touches].count(True)
-        return touched_faces == 2
+        return full_covered_faces == 1 and touched_faces == 2
 
     def __icube_corner_face (self, touches):
         """
