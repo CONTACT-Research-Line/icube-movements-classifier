@@ -413,17 +413,16 @@ class MovementsDetector(BaseHandler):
         if touches[0] == '1000000000000000':
             print ('top_left', touches[0])
             return top_left
-        elif touches[0] == '0001000000000000':
+        if touches[0] == '0001000000000000':
             print ('top_right', touches[0])
             return top_right
-        elif touches[0] == '0000000000001000':
+        if touches[0] == '0000000000001000':
             print ('bottom_left', touches[0])
             return bottom_left
-        elif touches[0] == '0000000000000001':
+        if touches[0] == '0000000000000001':
             print ('bottom_right', touches[0])
             return bottom_right
-        else:
-            return 'other'
+
 
     def handle(self, quaternions, touches, accelerometer):
         """
@@ -644,8 +643,9 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
             """
 
+
         if self.icube_state == MovementState.POSED:
-            if touches[0] == '1000000000000000':
+            if self.__icube_corner_face(touches) == 'top_left':
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
                 self.on_touch_firstface_upleft()
                 print ('<<<<<<<<<touch', touches[0])
@@ -656,7 +656,43 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches) == 'top_left':
+            if self.__icube_corner_face(touches) == 'top_right':
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPRIGHT
+                self.on_touch_firstface_upright()
+                print ('<<<<<<<<<touch', touches[0])
+
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_UPRIGHT:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+        if self.icube_state == MovementState.POSED:
+            if self.__icube_corner_face(touches) == 'bottom_left':
+                "bottomleft"
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNLEFT
+                self.on_touch_firstface_downleft()
+                print ('<<<<<<<<<touch', touches[0])
+
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_DOWNLEFT:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+        if self.icube_state == MovementState.POSED:
+            if self.__icube_corner_face(touches) == 'bottom_right':
+                "bottomright"
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNRIGHT
+                self.on_touch_firstface_downright()
+                print ('<<<<<<<<<touch', touches[0])
+
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_DOWNRIGHT:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+        """""
+        if self.icube_state == MovementState.POSED:
+            if touches[0] == '1000000000000000':
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
                 self.on_touch_firstface_upleft()
                 print ('<<<<<<<<<touch', touches[0])
@@ -677,6 +713,7 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+                
         if self.icube_state == MovementState.POSED:
             if touches[0] == '0000000000001000':
                 "bottomleft"
@@ -700,6 +737,7 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+        """
 
         "touch right face"
         if self.icube_state == MovementState.POSED:
@@ -732,5 +770,6 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+
 
         self.init_acc = np_acc
