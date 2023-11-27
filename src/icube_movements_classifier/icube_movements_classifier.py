@@ -682,24 +682,47 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
                 self.on_touch_firstface_upleft()
                 print ('<<<<<<<<<touch', touches[0])
-            elif touches[0] == '0001000000000000':
+
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_UPLEFT:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
+        if self.icube_state == MovementState.POSED:
+            if touches[0] == '0001000000000000':
                 "topright"
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_UPRIGHT
                 self.on_touch_firstface_upright()
                 print ('<<<<<<<<<touch', touches[0])
-            elif touches[0] == '0000000000001000':
+
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_UPRIGHT:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+        if self.icube_state == MovementState.POSED:
+            if touches[0] == '0000000000001000':
                 "bottomleft"
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNLEFT
                 self.on_touch_firstface_downleft()
                 print ('<<<<<<<<<touch', touches[0])
-            elif touches[0] == '0000000000000001':
+
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_DOWNLEFT:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+                    
+        if self.icube_state == MovementState.POSED:
+            if touches[0] == '0000000000000001':
                 "bottomright"
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNRIGHT
                 self.on_touch_firstface_downright()
                 print ('<<<<<<<<<touch', touches[0])
-            else:
-                self.icube_state = MovementState.TOUCH_TOPFACE
-                self.on_touch_topface()
+
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_DOWNRIGHT:
+            if self.__icube_posed(touches):
+                self.icube_state = MovementState.POSED
+                self.on_pose()
+
 
         """""
         "touch top face"
