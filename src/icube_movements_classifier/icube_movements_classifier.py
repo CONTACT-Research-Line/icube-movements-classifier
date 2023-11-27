@@ -679,6 +679,14 @@ class MovementsDetector(BaseHandler):
         topright = '0001000000000000'
         bottomleft = '0000000000001000'
         bottomright = '0000000000000001'
+
+        if self.icube_state == MovementState.POSED:
+            if touches[0] == 'topleft':
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
+                self.on_touch_firstface_upleft()
+                print ('<<<<<<<<<touch', touches[0], 'topleft', topleft)
+
+        """""
         "touch top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
@@ -708,6 +716,7 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+        """
 
 
         "touch right face"
