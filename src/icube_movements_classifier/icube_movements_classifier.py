@@ -415,18 +415,18 @@ class MovementsDetector(BaseHandler):
         bottomright = '0000000000000001'
 
 
-        if touches == topleft:
+        if touches == 'topleft':
             print ('top_left', topleft)
-            return 'top_left'
-        elif touches == topright:
+            return top_left
+        elif touches == 'topright':
             print ('top_right', topright)
-            return 'top_right'
-        elif touches == bottomleft:
+            return top_right
+        elif touches == 'bottomleft':
             print ('bottom_left', bottomleft)
-            return 'bottom_left'
-        elif touches == bottomright:
+            return bottom_left
+        elif touches == 'bottomright':
             print ('bottom_right', bottomright)
-            return 'bottom_right'
+            return bottom_right
         else:
             return 'other'
 
