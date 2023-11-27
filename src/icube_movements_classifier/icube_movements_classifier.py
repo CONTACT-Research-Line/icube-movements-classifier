@@ -410,16 +410,16 @@ class MovementsDetector(BaseHandler):
         full_covered_faces = touches.count(touches[0])
         print ('>>>>>>>>>>>>>>>>>full_covered_faces_top', full_covered_faces)
 
-        if touches[0] == '1000000000000000':
+        if touches[0] == touches('1000000000000000'):
             print ('top_left', touches[0])
             return 'top_left'
-        elif touches[0] == '0001000000000000':
+        elif touches[0] == touches('0001000000000000'):
             print ('top_right', touches[0])
             return 'top_right'
-        elif touches[0] == '0000000000001000':
+        elif touches[0] == touches('0000000000001000'):
             print ('bottom_left', touches[0])
             return 'bottom_left'
-        elif touches[0] == '0000000000000001':
+        elif touches[0] == touches('0000000000000001'):
             print ('bottom_right', touches[0])
             return 'bottom_right'
         else:
