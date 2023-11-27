@@ -655,6 +655,7 @@ class MovementsDetector(BaseHandler):
         "touch top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
+                corner_face_result = self.__icube_corner_face(touches)
                 if corner_face_result == 'topleft':
                     "topleft"
                     print ('corner_face_result_top_left', corner_face_result)
