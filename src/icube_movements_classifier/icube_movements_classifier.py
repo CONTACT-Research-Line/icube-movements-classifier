@@ -395,14 +395,15 @@ class MovementsDetector(BaseHandler):
         full_covered_faces = touches.count(touches[0])
         touched_faces = ["1" in t for t in touches].count(True)
         return full_covered_faces == 1 and touched_faces == 2
-    """""
+
     def __icube_corner_face (self, touches):
-        
+        """""
         Classify if the iCube is posed based on touches
         If only one face is fully active the cube is posed somewhere
         Otherwise the cube is held
         @param touches: a set of touches form the iCube
         @return: True if touched
+        """
 
         if touches is None:
             return False
@@ -428,34 +429,6 @@ class MovementsDetector(BaseHandler):
             return bottom_right
         else:
             return 'other'
-        """
-    def __icube_corner_face (self, touches):
-
-        if touches is None:
-            return False
-
-        full_covered_faces = touches.count(touches[0])
-        print ('>>>>>>>>>>>>>>>>>full_covered_faces_top', full_covered_faces)
-        topleft = '1000000000000000'
-        topright = '0001000000000000'
-        bottomleft = '0000000000001000'
-        bottomright = '0000000000000001'
-
-        if touches[0] == 'topleft':
-            print ('top_left', touches[0])
-            return top_left
-
-        if touches[0] == 'topright':
-            print ('top_right', touches[0])
-            return top_right
-
-        if touches[0] == 'bottomleft':
-            print ('bottom_left', touches[0])
-            return bottom_left
-
-        if touches[0] == 'bottomright':
-            print ('bottom_right', touches[0])
-            return bottom_right
 
     def handle(self, quaternions, touches, accelerometer):
         """
