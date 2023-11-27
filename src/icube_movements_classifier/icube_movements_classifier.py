@@ -647,6 +647,10 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
             """
+        topleft = '1000000000000000'
+        topright = '0001000000000000'
+        bottomleft = '0000000000001000'
+        bottomright = '0000000000000001'
         "touch top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
