@@ -415,16 +415,16 @@ class MovementsDetector(BaseHandler):
         bottomright = '0000000000000001'
 
 
-        if touches == 'topleft':
+        if touches[0] == 'topleft':
             print ('top_left', topleft)
             return top_left
-        elif touches == 'topright':
+        elif touches[0] == 'topright':
             print ('top_right', topright)
             return top_right
-        elif touches == 'bottomleft':
+        elif touches[0] == 'bottomleft':
             print ('bottom_left', bottomleft)
             return bottom_left
-        elif touches == 'bottomright':
+        elif touches[0] == 'bottomright':
             print ('bottom_right', bottomright)
             return bottom_right
         else:
@@ -656,19 +656,20 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
                 corner_face_result = self.__icube_corner_face(touches)
-                if corner_face_result == topleft:
+                print ('>>>>>>>>>corner_face_result', corner_face_result)
+                if corner_face_result == 'topleft':
                     "topleft"
                     self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
                     self.on_touch_firstface_upleft()
-                elif corner_face_result == topright:
+                elif corner_face_result == 'topright':
                     "topright"
                     self.icube_state = MovementState.TOUCH_FIRSTFACE_UPRIGHT
                     self.on_touch_firstface_upright()
-                elif corner_face_result == bottomleft:
+                elif corner_face_result == 'bottomleft':
                     "bottomleft"
                     self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNLEFT
                     self.on_touch_firstface_downleft()
-                elif corner_face_result == bottomright:
+                elif corner_face_result == 'bottomright':
                     "bottomright"
                     self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNRIGHT
                     self.on_touch_firstface_downright()
