@@ -692,7 +692,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNLEFT
                 self.on_touch_firstface_downleft()
                 print ('<<<<<<<<<touch', touches[0])
-            elif corner_face_result == '0000000000000001':
+            elif touches[0] == '0000000000000001':
                 "bottomright"
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNRIGHT
                 self.on_touch_firstface_downright()
@@ -700,8 +700,6 @@ class MovementsDetector(BaseHandler):
             else:
                 self.icube_state = MovementState.TOUCH_TOPFACE
                 self.on_touch_topface()
-
-
 
         """""
         "touch top face"
