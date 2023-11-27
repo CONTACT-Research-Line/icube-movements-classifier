@@ -691,7 +691,6 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
 
         """
-        print ('touches[0]', touches[0])
         if self.icube_state == MovementState.POSED:
             if touches[0] == '1000000000000000':
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
