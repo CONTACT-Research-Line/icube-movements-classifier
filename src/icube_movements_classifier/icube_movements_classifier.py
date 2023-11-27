@@ -720,8 +720,7 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
                 self.icube_state = MovementState.TOUCH_TOPFACE
-                self.on_touch_topface
-                print ('top face', touches[0])
+                self.on_touch_topface()
 
         if self.icube_state == MovementState.TOUCH_TOPFACE:
             if self.__icube_posed(touches):
