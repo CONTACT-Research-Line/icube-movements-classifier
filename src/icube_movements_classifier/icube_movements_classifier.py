@@ -11,7 +11,6 @@ class MovementState(enum.Enum):
     GRABBED = 1
     MOVED = 2
     UNKNOWN = 3
-    TURNED = 4
 
 
 class MovementsDetector(BaseHandler):
@@ -33,7 +32,6 @@ class MovementsDetector(BaseHandler):
         self.on_grab = None
         self.on_pose = None
         self.on_move = None
-        self.on_turn = None
 
     def set_on_grab_callback(self, on_grab):
         """
@@ -58,14 +56,6 @@ class MovementsDetector(BaseHandler):
         @return:
         """
         self.on_move = on_move
-
-    def set_on_turn_callback(self, on_turn):
-        """
-        What to do when the cube is turned
-        @param on_turn: function in format event_trigger(delta_acceleration)
-        @return:
-        """
-        self.on_turn = on_turn
 
     def __icube_posed(self, touches):
         """
@@ -114,16 +104,9 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
 
-        """
         if self.icube_state == MovementState.GRABBED:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
-        """
-
-        if self.icube_state == MovementState.TURNED:
-            if self.delta_movement > self.turn_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.TURNED
-                self.on_turn()
 
         self.init_acc = np_acc
