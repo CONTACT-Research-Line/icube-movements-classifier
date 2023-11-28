@@ -412,16 +412,16 @@ class MovementsDetector(BaseHandler):
         
         if touches[0] == '1000000000000000':
             print ('top_left', touches[0])
-            return top_left
+            return 'top_left'
         if touches[0] == '0001000000000000':
             print ('top_right', touches[0])
-            return top_right
+            return 'top_right'
         if touches[0] == '0000000000001000':
             print ('bottom_left', touches[0])
-            return bottom_left
+            return 'bottom_left'
         if touches[0] == '0000000000000001':
             print ('bottom_right', touches[0])
-            return bottom_right
+            return 'bottom_right'
 
 
     def handle(self, quaternions, touches, accelerometer):
