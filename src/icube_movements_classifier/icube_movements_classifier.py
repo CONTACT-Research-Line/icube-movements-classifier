@@ -27,10 +27,10 @@ class MovementState(enum.Enum):
     ROTATE_BACKWARD = 11
     TOUCH_RIGHTFACE = 12
     TOUCH_LEFTFACE = 13
-    TOUCH_FIRSTFACE_UPLEFT = 14
-    TOUCH_FIRSTFACE_UPRIGHT = 15
-    TOUCH_FIRSTFACE_DOWNLEFT = 16
-    TOUCH_FIRSTFACE_DOWNRIGHT = 17
+    TOUCH_FIRSTFACE_TOPLEFT = 14
+    TOUCH_FIRSTFACE_TOPRIGHT = 15
+    TOUCH_FIRSTFACE_BOTTOMLEFT = 16
+    TOUCH_FIRSTFACE_BOTTOMRIGHT = 17
     TOUCH_TOPFACE = 18
     IDLE = 19
 
@@ -65,10 +65,10 @@ class MovementsDetector(BaseHandler):
         self.on_rotate_backward = None
         self.on_touch_rightface = None
         self.on_touch_leftface = None
-        self.on_touch_firstface_upleft = None
-        self.on_touch_firstface_upright = None
-        self.on_touch_firstface_downleft = None
-        self.on_touch_firstface_downright = None
+        self.on_touch_firstface_topleft = None
+        self.on_touch_firstface_topright = None
+        self.on_touch_firstface_bottomleft = None
+        self.on_touch_firstface_bottomright = None
         self.on_touch_topface = None
         self.on_idle = None
 
@@ -290,37 +290,37 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_leftface = on_touch_leftface
 
-    def set_on_touch_firstface_upleft_callback(self, on_touch_firstface_upleft):
+    def set_on_touch_firstface_topleft_callback(self, on_touch_firstface_topleft):
         """
-        What to do when the cube is touched the up left part of the first face
-        @param on_touch_firstface_upleft: function in format event_trigger(delta_acceleration)
+        What to do when the cube is touched the top left part of the first face
+        @param on_touch_firstface_topleft: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_touch_firstface_upleft = on_touch_firstface_upleft
+        self.on_touch_firstface_topleft = on_touch_firstface_topleft
 
-    def set_on_touch_firstface_upright_callback(self, on_touch_firstface_upright):
+    def set_on_touch_firstface_topright_callback(self, on_touch_firstface_topright):
         """
-        What to do when the cube is touched the up right part of the first face
-        @param on_touch_firstface_upright: function in format event_trigger(delta_acceleration)
+        What to do when the cube is touched the top right part of the first face
+        @param on_touch_firstface_topright: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_touch_firstface_upright = on_touch_firstface_upright
+        self.on_touch_firstface_topright = on_touch_firstface_topright
 
-    def set_on_touch_firstface_downleft_callback(self, on_touch_firstface_downleft):
+    def set_on_touch_firstface_bottomleft_callback(self, on_touch_firstface_bottomleft):
         """
-        What to do when the cube is touched the down left part of the first face
-        @param on_touch_firstface_downleft: function in format event_trigger(delta_acceleration)
+        What to do when the cube is touched the bottom left part of the first face
+        @param on_touch_firstface_bottomleft: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_touch_firstface_downleft = on_touch_firstface_downleft
+        self.on_touch_firstface_bottomleft = on_touch_firstface_bottomleft
 
-    def set_on_touch_firstface_downright_callback(self, on_touch_firstface_downright):
+    def set_on_touch_firstface_bottomright_callback(self, on_touch_firstface_bottomright):
         """
-        What to do when the cube is touched the down right part of the first face
-        @param on_touch_firstface_downright: function in format event_trigger(delta_acceleration)
+        What to do when the cube is touched the bottom right part of the first face
+        @param on_touch_firstface_bottomright: function in format event_trigger(delta_acceleration)
         @return:
         """
-        self.on_touch_firstface_downright = on_touch_firstface_downright
+        self.on_touch_firstface_bottomright = on_touch_firstface_bottomright
 
     def set_on_touch_topface_callback(self, on_touch_topface):
         """
@@ -693,11 +693,11 @@ class MovementsDetector(BaseHandler):
         """
         if self.icube_state == MovementState.POSED:
             if touches[0] == '1000000000000000':
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
-                self.on_touch_firstface_upleft()
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_TOPLEFT
+                self.on_touch_firstface_topleft()
                 print ('<<<<<<<<<touch', touches[0])
 
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_UPLEFT:
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_TOPLEFT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
@@ -705,11 +705,11 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.POSED:
             if touches[0] == '0001000000000000':
                 "topright"
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPRIGHT
-                self.on_touch_firstface_upright()
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_TOPRIGHT
+                self.on_touch_firstface_topright()
                 print ('<<<<<<<<<touch', touches[0])
 
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_UPRIGHT:
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_TOPRIGHT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
@@ -717,11 +717,11 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.POSED:
             if touches[0] == '0000000000001000':
                 "bottomleft"
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNLEFT
-                self.on_touch_firstface_downleft()
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_BOTTOMLEFT
+                self.on_touch_firstface_bottomleft()
                 print ('<<<<<<<<<touch', touches[0])
 
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_DOWNLEFT:
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_BOTTOMLEFT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
@@ -729,11 +729,11 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.POSED:
             if touches[0] == '0000000000000001':
                 "bottomright"
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNRIGHT
-                self.on_touch_firstface_downright()
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_BOTTOMRIGHT
+                self.on_touch_firstface_bottomright()
                 print ('<<<<<<<<<touch', touches[0])
 
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_DOWNRIGHT:
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_BOTTOMRIGHT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
