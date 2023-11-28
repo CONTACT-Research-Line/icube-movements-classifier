@@ -386,7 +386,7 @@ class MovementsDetector(BaseHandler):
         """
         Classify if the iCube is posed based on touches
         If only one face is fully active the cube is posed somewhere
-        Otherwise the cube is held
+        Otherwise the cube is held. Touching only one element of the top face, activates the function.
         @param touches: a set of touches form the iCube
         @return: True if touched
         """
@@ -400,7 +400,7 @@ class MovementsDetector(BaseHandler):
         """""
         Classify if the iCube is posed based on touches
         If only one face is fully active the cube is posed somewhere
-        Otherwise the cube is held
+        Otherwise the cube is held. Touching the 4 corners of the top face, activates the function.
         @param touches: a set of touches form the iCube
         @return: True if touched
         """
@@ -408,7 +408,6 @@ class MovementsDetector(BaseHandler):
             return False
 
         full_covered_faces = touches.count(touches[0])
-        print ('>>>>>>>>>>>>>>>>>full_covered_faces_top', full_covered_faces)
         
         if touches[0] == '1000000000000000':
             print ('top_left', touches[0])
@@ -476,13 +475,12 @@ class MovementsDetector(BaseHandler):
         self.delta_movement = np.linalg.norm(accelerometer - self.init_acc)
         if self.delta_movement > 0:
             self.on_move(self.delta_movement)
-
-        """""
+            
         if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.GRABBED
                 self.on_grab()
-        """
+
 
         "from pose to different rotation"
         if self.icube_state == MovementState.POSED:
