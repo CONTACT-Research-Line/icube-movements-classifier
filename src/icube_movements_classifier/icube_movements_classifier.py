@@ -643,49 +643,49 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
             """
 
-        """""
+
         if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches) == 'top_left':
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPLEFT
-                self.on_touch_firstface_upleft()
+            if self.__icube_corner_face(touches):
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_TOPLEFT
+                self.on_touch_firstface_topleft()
                 print ('<<<<<<<<<touch', touches[0])
 
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_UPLEFT:
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_TOPLEFT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches) == 'top_right':
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_UPRIGHT
-                self.on_touch_firstface_upright()
+            if self.__icube_corner_face(touches):
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_TOPRIGHT
+                self.on_touch_firstface_topright()
                 print ('<<<<<<<<<touch', touches[0])
 
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_UPRIGHT:
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_TOPRIGHT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches) == 'bottom_left':
+            if self.__icube_corner_face(touches):
                 "bottomleft"
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNLEFT
-                self.on_touch_firstface_downleft()
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_BOTTOMLEFT
+                self.on_touch_firstface_bottomleft()
                 print ('<<<<<<<<<touch', touches[0])
 
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_DOWNLEFT:
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_BOTTOMLEFT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
         if self.icube_state == MovementState.POSED:
-            if self.__icube_corner_face(touches) == 'bottom_right':
+            if self.__icube_corner_face(touches):
                 "bottomright"
-                self.icube_state = MovementState.TOUCH_FIRSTFACE_DOWNRIGHT
-                self.on_touch_firstface_downright()
+                self.icube_state = MovementState.TOUCH_FIRSTFACE_BOTTOMRIGHT
+                self.on_touch_firstface_bottomright()
                 print ('<<<<<<<<<touch', touches[0])
 
-        if self.icube_state == MovementState.TOUCH_FIRSTFACE_DOWNRIGHT:
+        if self.icube_state == MovementState.TOUCH_FIRSTFACE_BOTTOMRIGHT:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
@@ -737,6 +737,7 @@ class MovementsDetector(BaseHandler):
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
+        """""
 
 
         "touch right face"
@@ -761,6 +762,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
+        "touche top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
                 self.icube_state = MovementState.TOUCH_TOPFACE
