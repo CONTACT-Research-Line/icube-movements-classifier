@@ -1,5 +1,5 @@
 from icube_movements_classifier import MovementsDetector
-from icube_movements_classifier import DoubleFullTouchDetector
+from icube_movements_classifier.imc_double_full_touch import DoubleFullTouchDetector
 
 
 class IMCFactory:
@@ -14,5 +14,3 @@ class IMCFactory:
             return self.available_classifiers[classifier_type]
 
         raise ValueError("Unavailable classifier")
-
-
