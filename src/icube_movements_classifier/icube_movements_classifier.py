@@ -85,22 +85,22 @@ class MovementsDetector(BaseHandler):
 
             for i in range(1,2):
 
-                "print('quat_old', pyp.Quaternion(quaternions_old))"
+                # print('quat_old', pyp.Quaternion(quaternions_old))
 
                 q_upper = pyp.Quaternion(quaternions_old)
-                "print('q_upper', q_upper)"
+                # print('q_upper', q_upper)
 
                 q_lower = pyp.Quaternion(quaternions)
-                "print('q_lower', q_lower)"
+                # print('q_lower', q_lower)
 
-                """""
+                """
                 print('q_upper_w', q_upper.w, 'q_upper_x', q_upper.x, 'q_upper_y', q_upper.y, 'q_upper_z', q_upper.z)
                 print('q_lower_w', q_lower.w, 'q_lower_x', q_lower.x, 'q_lower_y', q_lower.y, 'q_lower_z', q_lower.z)
                 """
 
-                "Get the 3D difference between these two orientations"
+                # Get the 3D difference between these two orientations
                 qd = q_upper.conjugate * q_lower
-                "print('qd', qd)"
+                # print('qd', qd)
 
                 phi_qd_rad   = math.atan2( 2 * (qd.w * qd.x + qd.y * qd.z), 1 - 2 * (qd.x**2 + qd.y**2) )
                 theta_qd_rad = math.asin ( 2 * (qd.w * qd.y - qd.z * qd.x) )
@@ -112,7 +112,7 @@ class MovementsDetector(BaseHandler):
 
                 print('phi_qd_deg', phi_qd_deg, 'theta_qd_deg', theta_qd_deg, 'psi_qd_deg', psi_qd_deg)
 
-                "ruoto assi"
+                # ruoto assi
 
                 delta_X = qd.rotate(X)
                 delta_Y = qd.rotate(Y)
@@ -432,7 +432,7 @@ class MovementsDetector(BaseHandler):
         @return:
         """
 
-        "define the function variables"
+        # define the function variables
         delta = 0.8
         threshold_zero = 0
         threshold = 4
@@ -440,8 +440,8 @@ class MovementsDetector(BaseHandler):
         print('quaternions', quaternions)
         print ('touches', touches)
 
-        "handling quaternions"
-        "convertion from quaternions to angles"
+        # handling quaternions
+        # convertion from quaternions to angles
 
         quanti_trial_value = 1
         """""
@@ -454,7 +454,7 @@ class MovementsDetector(BaseHandler):
 
         self.quaternions_old = quaternions
 
-        "handling accelerometer"
+        # handling accelerometer
         if accelerometer is None or accelerometer == []:
             return False
 
@@ -514,7 +514,7 @@ class MovementsDetector(BaseHandler):
                  self.icube_state = MovementState.TURNED_ANTICLOCKWISE
                  self.on_turn_anticlockwise()
 
-        "right rotation of the cube"
+        # right rotation of the cube"
         if self.icube_state == MovementState.ROTATE_RIGHT:
             if psi_qd < 0 + delta and psi_qd > 0 - delta:
                 self.icube_state = MovementState.IDLE
@@ -525,7 +525,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.ROTATE_RIGHT
                 self.on_rotate_right()
 
-        "left rotation of the cube"
+        # left rotation of the cube"
         if self.icube_state == MovementState.IDLE:
             if phi_qd > threshold_zero and theta_qd < threshold_zero and psi_qd > +threshold:
                 self.icube_state = MovementState.ROTATE_LEFT
@@ -536,7 +536,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.IDLE
                 self.on_idle()
 
-        "forward rotation of the cube"
+        # forward rotation of the cube"
         if self.icube_state == MovementState.IDLE:
             if phi_qd < threshold_zero and theta_qd > +threshold and psi_qd < threshold_zero:
                 self.icube_state = MovementState.ROTATE_FORWARD
@@ -547,7 +547,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.IDLE
                 self.on_idle()
 
-        "backward rotation of the cube"
+        # backward rotation of the cube"
         if self.icube_state == MovementState.IDLE:
             if phi_qd > threshold_zero and theta_qd < -threshold and psi_qd < threshold_zero:
                 self.icube_state = MovementState.ROTATE_BACKWARD
@@ -558,7 +558,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.IDLE
                 self.on_idle()
 
-        "clockwise turn of the cube"
+        # clockwise turn of the cube"
         if self.icube_state == MovementState.IDLE:
             if phi_qd < -threshold and theta_qd < threshold_zero and psi_qd < threshold_zero:
                 self.icube_state = MovementState.TURNED_CLOCKWISE
@@ -569,7 +569,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.IDLE
                 self.on_idle()
 
-        "anticlockwise turned of the cube"
+        # anticlockwise turned of the cube"
         if self.icube_state == MovementState.IDLE:
             if phi_qd > +threshold and theta_qd > threshold_zero and psi_qd > threshold_zero:
                  self.icube_state = MovementState.TURNED_ANTICLOCKWISE
@@ -580,7 +580,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.IDLE
                 self.on_idle()
 
-        "stop rotation"
+        # stop rotation"
         if self.icube_state == MovementState.IDLE:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
@@ -616,7 +616,7 @@ class MovementsDetector(BaseHandler):
                 self.on_pose()
             """
 
-        "touch the top left part of the top face"
+        # touch the top left part of the top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_corner_face(touches) == 'top_left':
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_TOPLEFT
@@ -628,7 +628,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "touch the top right part of the top face"
+        # touch the top right part of the top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_corner_face(touches) == 'top_right':
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_TOPRIGHT
@@ -640,7 +640,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "touch the bottom left part of the top face"
+        # touch the bottom left part of the top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_corner_face(touches) == 'bottom_left':
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_BOTTOMLEFT
@@ -652,7 +652,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "touch the bottom right part of the top face"
+        # touch the bottom right part of the top face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_corner_face(touches) == 'bottom_right':
                 self.icube_state = MovementState.TOUCH_FIRSTFACE_BOTTOMRIGHT
@@ -664,7 +664,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "touch right face"
+        # touch right face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_right_face(touches):
                 self.icube_state = MovementState.TOUCH_RIGHTFACE
@@ -675,7 +675,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "touch left face"
+        # touch left face"
         if self.icube_state == MovementState.POSED:
             if self.__icube_left_face(touches):
                 self.icube_state = MovementState.TOUCH_LEFTFACE
@@ -686,7 +686,7 @@ class MovementsDetector(BaseHandler):
                 self.icube_state = MovementState.POSED
                 self.on_pose()
 
-        "touch top face"
+        # touch top face
         if self.icube_state == MovementState.POSED:
             if self.__icube_top_face(touches):
                 self.icube_state = MovementState.TOUCH_TOPFACE
