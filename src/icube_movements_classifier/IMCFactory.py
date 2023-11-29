@@ -6,7 +6,7 @@ class IMCFactory:
     def __init__(self):
         self.available_classifiers = {
             "base": MovementsDetector,
-            "double_touch": DoubleFullTouchDetector
+            "double_touch": DoubleFullTouchDetector,
         }
 
     def get_movement_classifier(self, classifier_type):
