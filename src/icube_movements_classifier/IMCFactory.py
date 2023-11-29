@@ -1,5 +1,5 @@
-from src.icube_movements_classifier import MovementsDetector
-from src.icube_movements_classifier.imc_double_full_touch import DoubleFullTouchDetector
+from icube_movements_classifier import MovementsDetector
+from icube_movements_classifier import DoubleFullTouchDetector
 
 
 class IMCFactory:

@@ -1,6 +1,6 @@
 import enum
 
-from src.icube_movements_classifier.icube_movements_classifier import *
+from icube_movements_classifier import MovementsDetector
 
 
 class DoubleTouchEvents(enum.Enum):
