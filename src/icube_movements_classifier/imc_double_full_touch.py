@@ -1,10 +1,13 @@
 import enum
 
-from icube_movements_classifier import MovementsDetector, CUBE_POSED_FACE
+from icube_movements_classifier import MovementsDetector
 
 
 class DoubleTouchEvents(enum.Enum):
     DOUBLE_TOUCH = 0
+
+
+CUBE_POSED_FACE = "1111111111111111"
 
 
 class DoubleFullTouchDetector(MovementsDetector):
