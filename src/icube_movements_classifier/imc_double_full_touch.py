@@ -11,8 +11,8 @@ CUBE_POSED_FACE = "1111111111111111"
 
 
 class DoubleFullTouchDetector(MovementsDetector):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, grab_tolerance=1):
+        super().__init__(grab_tolerance=grab_tolerance)
 
     def handle(self, quaternions, touches, accelerometer):
 
