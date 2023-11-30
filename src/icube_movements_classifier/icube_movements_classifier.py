@@ -330,7 +330,6 @@ class MovementsDetector(BaseHandler):
         """
         self.on_touch_topface = on_touch_topface
 
-
     def set_on_idle_callback (self, on_idle):
         """
         What to do when there is the end of the rotation of the cube and the state became neutral
@@ -338,7 +337,6 @@ class MovementsDetector(BaseHandler):
         @return:
         """
         self.on_idle = on_idle
-
 
     def __icube_posed(self, touches):
         """
@@ -421,7 +419,6 @@ class MovementsDetector(BaseHandler):
         if touches[0] == '0000000000000001':
             print ('bottom_right', touches[0])
             return 'bottom_right'
-
 
     def handle(self, quaternions, touches, accelerometer):
         """
