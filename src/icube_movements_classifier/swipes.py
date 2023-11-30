@@ -77,12 +77,10 @@ class SwipeDetector(MovementsDetector):
         """)
 
     def set_callback(self, event, callback):
-        """
-        Swipes callbacks
-        @param  event: the event to detect
-        @param  callback: function in the format function(face:int)
-        """
-        self.mapping_event_to_callback[event] = callback
+        if event in SwipeEvents:
+            self.mapping_event_to_callback[event] = callback
+        else:
+            super().set_callback(event, callback)
 
     def __touches_to_sequences(self, touches):
         try:
