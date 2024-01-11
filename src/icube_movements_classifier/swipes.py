@@ -4,6 +4,7 @@ import time
 import numpy as np
 from icube_movements_classifier import MovementState, MovementsDetector
 
+
 FULLY_COVERED_FACE = "1111111111111111"
 
 
@@ -13,6 +14,7 @@ class SwipeEvents(enum.Enum):
     BACKWARD = 2,
     RIGHT = 3,
     LEFT = 4
+    LONG_PRESS = 5
 
 N_FACES = 6
 N_ROWS = 4
@@ -21,7 +23,7 @@ N_COLS = 4
 
 class SwipeDetector(MovementsDetector):
     """
-    @package VojextSwipeDetector
+    @package SwipeDetector
     @brief a detector of the swipes for VOJEXT like we do with the Flex-TS
     @author Dario Pasquali
     """
@@ -31,7 +33,9 @@ class SwipeDetector(MovementsDetector):
                  threshold_multiplier=0.2,
                  min_sequence_length=2,
                  detect_only_when_grabbed=False,
-                 detect_on_face=None):
+                 
+                 detect_on_face=None,
+                 long_press_duration=2.0):
         """
         @param grab_tolerance: how much being tolerant on classifying an acceleration as grasping
         @param swipe_min_duration: classify a gesture every N seconds
@@ -44,27 +48,38 @@ class SwipeDetector(MovementsDetector):
         self.grab_tolerance = grab_tolerance
 
         self.swipe_min_duration = swipe_min_duration
+        
         self.threshold_multiplier = threshold_multiplier
         self.min_sequence_length = min_sequence_length
+        
         self.detect_only_when_grabbed = detect_only_when_grabbed
-        self.face_to_detect_on = detect_on_face
+        self.face_to_detect_on = -1
+        
+        self.long_press_duration = long_press_duration
+        self.long_press_accumulator = [
+            [], [], [], [], [], []
+        ]
+        self.long_press_last_time = time.time()
 
-        if self.face_to_detect_on is not None:
+        if detect_on_face is not None:
             if self.face_to_detect_on < 0:
-                raise ValueError(f"[SWIPE DETECTOR] detect_on_face must be > 0, provided {self.face_to_detect_on}")
+                raise ValueError(f"[SWIPE DETECTOR] detect_on_face must be > 0, provided {detect_on_face}")
             if self.face_to_detect_on > 5:
-                raise ValueError(f"[SWIPE DETECTOR] detect_on_face must be <= 5, provided {self.face_to_detect_on}")
+                raise ValueError(f"[SWIPE DETECTOR] detect_on_face must be <= 5, provided {detect_on_face}")
+            
+            self.face_to_detect_on = detect_on_face
 
+        
         self.mapping_event_to_callback = {}
 
         self.sequences_by_face = [
             [], [], [], [], [], []
         ]
-        self.last_time = time.time()
+        self.swipe_last_time = time.time()
 
         print("""
         ======================= SWIPE DETECTOR - WARNING =============================
-        This ICube Classifier assumes that you are holding the iCub with the charger
+        This ICube Classifier assumes that you are holding the iCube with the charger
         face (Face 0) on top, and with the IIT logo straight in front of you.
         Don't expect this Classifier to handle rotations!
                                 -------------------
@@ -91,6 +106,8 @@ class SwipeDetector(MovementsDetector):
         except Exception as e:
             print(e)
 
+    def __fire(self, event, face_id):
+        self.mapping_event_to_callback[event](face_id)
 
     def __classify_swipe_single_face(self, sequence):
 
@@ -125,8 +142,9 @@ class SwipeDetector(MovementsDetector):
 
         return None
 
+
     def handle(self, quaternions, touches, accelerometer):
-        super().handle(quaternions, touches, accelerometer)
+        super().handle(quaternions, touches, accelerometer)        
 
         # Update the gestures
         self.__touches_to_sequences(touches)
@@ -135,25 +153,39 @@ class SwipeDetector(MovementsDetector):
             return
 
         try:
-            # Check for COVERED faces and fire the events
-            [self.mapping_event_to_callback[SwipeEvents.COVER](face_id) for face_id, face_touch in enumerate(touches)
-             if face_touch == FULLY_COVERED_FACE]
+            
+            if self.face_to_detect_on >= 0:
+                if touches[self.face_to_detect_on] == FULLY_COVERED_FACE:
+                    self.__fire(SwipeEvents.COVER, self.face_to_detect_on)
+                    self.long_press_accumulator[self.face_to_detect_on].append(SwipeEvents.COVER)
+                    if (time.time()-self.long_press_last_time) >= self.long_press_duration:
+                        if self.long_press_accumulator[self.face_to_detect_on].count(SwipeEvents.COVER) == len(self.long_press_accumulator[self.face_to_detect_on]):
+                            self.__fire(SwipeEvents.LONG_PRESS, self.face_to_detect_on)
+                        self.long_press_accumulator[self.face_to_detect_on] = []
+                        self.long_press_last_time = 0.0
+                    
+            else:
+                for face_id, face_touch in enumerate(touches):
+                    if face_touch == FULLY_COVERED_FACE:
+                        self.__fire(SwipeEvents.COVER, face_id)
+                
         except TypeError as e:
             print(e)
 
         # If at lease time passed
-        if (time.time()-self.last_time) >= self.swipe_min_duration:
+        if (time.time()-self.swipe_last_time) >= self.swipe_min_duration:
             # Check the gestures and fire the events
             try:
-                if self.face_to_detect_on is not None:
+                if self.face_to_detect_on >= 0:
                     event = self.__classify_swipe_single_face(self.sequences_by_face[self.face_to_detect_on])
                     if event is not None and event in self.mapping_event_to_callback:
-                        self.mapping_event_to_callback[event](self.face_to_detect_on)
+                        self.__fire(event, self.face_to_detect_on)
+                        self.long_press_accumulator[self.face_to_detect_on].append(event)
                 else:
                     for face, seq in enumerate(self.sequences_by_face):
                        event = self.__classify_swipe_single_face(seq)
                        if event is not None and event in self.mapping_event_to_callback:
-                           self.mapping_event_to_callback[event](face)
+                           self.__fire(event, face)
             except Exception as e:
                 print(e)
 
@@ -161,7 +193,7 @@ class SwipeDetector(MovementsDetector):
             self.sequences_by_face = [
                 [], [], [], [], [], []
             ]
-            self.last_time = time.time()
+            self.swipe_last_time = time.time()
 
 
 
