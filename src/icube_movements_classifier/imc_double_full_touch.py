@@ -22,7 +22,7 @@ class DoubleFullTouchDetector(MovementsDetector):
         super().handle(quaternions, touches, accelerometer)
 
     def set_callback(self, event, callback):
-        if event in DoubleTouchEvents:
+        if event in DoubleTouchEvents and event in self.mapping_event_to_callback:
             self.mapping_event_to_callback[event] = callback
         else:
             super().set_callback(event, callback)

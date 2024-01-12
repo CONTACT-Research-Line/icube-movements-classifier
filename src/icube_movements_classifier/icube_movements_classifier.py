@@ -39,7 +39,8 @@ class MovementsDetector(BaseHandler):
         self.mapping_event_to_callback = {}
 
     def set_callback(self, event, callback):
-        self.mapping_event_to_callback[event] = callback
+        if event in self.mapping_event_to_callback:
+            self.mapping_event_to_callback[event] = callback
 
     def __icube_posed(self, touches):
         """

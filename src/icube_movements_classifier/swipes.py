@@ -32,8 +32,7 @@ class SwipeDetector(MovementsDetector):
                  swipe_min_duration=1.5,
                  threshold_multiplier=0.2,
                  min_sequence_length=2,
-                 detect_only_when_grabbed=False,
-                 
+                 detect_only_when_grabbed=False,                
                  detect_on_face=None,
                  long_press_duration=2.0):
         """
@@ -92,7 +91,7 @@ class SwipeDetector(MovementsDetector):
         """)
 
     def set_callback(self, event, callback):
-        if event in SwipeEvents:
+        if event in SwipeEvents and event in self.mapping_event_to_callback:
             self.mapping_event_to_callback[event] = callback
         else:
             super().set_callback(event, callback)
