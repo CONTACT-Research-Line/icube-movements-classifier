@@ -61,12 +61,11 @@ class SwipeDetector(MovementsDetector):
         self.long_press_last_time = time.time()
 
         if detect_on_face is not None:
+            self.face_to_detect_on = int(detect_on_face)
             if self.face_to_detect_on < 0:
                 raise ValueError(f"[SWIPE DETECTOR] detect_on_face must be > 0, provided {detect_on_face}")
             if self.face_to_detect_on > 5:
                 raise ValueError(f"[SWIPE DETECTOR] detect_on_face must be <= 5, provided {detect_on_face}")
-            
-            self.face_to_detect_on = detect_on_face
 
         
         self.mapping_event_to_callback = {}
