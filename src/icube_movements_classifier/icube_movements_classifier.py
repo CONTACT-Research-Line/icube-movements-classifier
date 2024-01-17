@@ -38,9 +38,16 @@ class MovementsDetector(BaseHandler):
         self.grab_tolerance = grab_tolerance
         self.mapping_event_to_callback = {}
 
-    def set_callback(self, event, callback):
+    def __fire(self, event, args=None):
         if event in self.mapping_event_to_callback:
-            self.mapping_event_to_callback[event] = callback
+            if args is not None:
+                self.mapping_event_to_callback[event](args)
+            else:
+                self.mapping_event_to_callback[event]()
+            
+
+    def set_callback(self, event, callback):
+        self.mapping_event_to_callback[event] = callback
 
     def __icube_posed(self, touches):
         """
@@ -71,10 +78,10 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.UNKNOWN:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
-                self.mapping_event_to_callback[ICubeBaseEvents.POSE]()
+                self.__fire(ICubeBaseEvents.POSE)
             else:
                 self.icube_state = MovementState.GRABBED
-                self.mapping_event_to_callback[ICubeBaseEvents.GRAB]()
+                self.__fire(ICubeBaseEvents.GRAB)
 
         np_acc = np.array(accelerometer)
         if self.init_acc is None:
@@ -82,16 +89,16 @@ class MovementsDetector(BaseHandler):
 
         self.delta_movement = np.linalg.norm(accelerometer - self.init_acc)
         if self.delta_movement > 0:
-            self.mapping_event_to_callback[ICubeBaseEvents.MOVE](self.delta_movement)
+            self.__fire(ICubeBaseEvents.MOVE, args=self.delta_movement)
 
         if self.icube_state == MovementState.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
                 self.icube_state = MovementState.GRABBED
-                self.mapping_event_to_callback[ICubeBaseEvents.GRAB]()
+                self.__fire(ICubeBaseEvents.GRAB)
 
         if self.icube_state == MovementState.GRABBED:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
-                self.mapping_event_to_callback[ICubeBaseEvents.POSE]()
+                self.__fire(ICubeBaseEvents.POSE)
 
         self.init_acc = np_acc

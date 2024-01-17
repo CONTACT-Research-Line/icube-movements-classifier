@@ -91,7 +91,7 @@ class SwipeDetector(MovementsDetector):
         """)
 
     def set_callback(self, event, callback):
-        if event in SwipeEvents and event in self.mapping_event_to_callback:
+        if event in SwipeEvents and not event in self.mapping_event_to_callback:
             self.mapping_event_to_callback[event] = callback
         else:
             super().set_callback(event, callback)
@@ -106,7 +106,8 @@ class SwipeDetector(MovementsDetector):
             print(e)
 
     def __fire(self, event, face_id):
-        self.mapping_event_to_callback[event](face_id)
+        if event in self.mapping_event_to_callback:
+            self.mapping_event_to_callback[event](face_id)
 
     def __classify_swipe_single_face(self, sequence):
 
