@@ -1,25 +1,23 @@
 import enum
-
-from icube.data_handlers.base import BaseHandler
 import numpy as np
+from icube_movements_classifier.base_event_handler import BaseEventHandler
 
 CUBE_POSED_FACE = "1111111111111111"
 
 
-class MovementState(enum.Enum):
-    POSED = 0,
-    GRABBED = 1
-    MOVED = 2
-    UNKNOWN = 3
-
-
-class ICubeBaseEvents(enum.Enum):
+class GrabPoseEvents(enum.Enum):
     MOVE = 0,
     GRAB = 1,
     POSE = 2
 
 
-class MovementsDetector(BaseHandler):
+class GrabPoseDetector(BaseEventHandler):
+    class State(enum.Enum):
+        POSED = 0,
+        GRABBED = 1
+        MOVED = 2
+        UNKNOWN = 3
+
     """
     @package GraspDetector
     @brief a module to detect when the participant grasps the iCube or place it on a flat surface
@@ -34,20 +32,9 @@ class MovementsDetector(BaseHandler):
         self.init_acc = None
         self.delta_movement = 0.0
 
-        self.icube_state = MovementState.UNKNOWN
+        self.icube_state = GrabPoseDetector.State.UNKNOWN
         self.grab_tolerance = grab_tolerance
         self.mapping_event_to_callback = {}
-
-    def __fire(self, event, args=None):
-        if event in self.mapping_event_to_callback:
-            if args is not None:
-                self.mapping_event_to_callback[event](args)
-            else:
-                self.mapping_event_to_callback[event]()
-            
-
-    def set_callback(self, event, callback):
-        self.mapping_event_to_callback[event] = callback
 
     def __icube_posed(self, touches):
         """
@@ -75,13 +62,13 @@ class MovementsDetector(BaseHandler):
         if accelerometer is None or accelerometer == []:
             return False
 
-        if self.icube_state == MovementState.UNKNOWN:
+        if self.icube_state == GrabPoseDetector.State.UNKNOWN:
             if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.__fire(ICubeBaseEvents.POSE)
+                self.icube_state = GrabPoseDetector.State.POSED
+                self.fire(GrabPoseEvents.POSE)
             else:
-                self.icube_state = MovementState.GRABBED
-                self.__fire(ICubeBaseEvents.GRAB)
+                self.icube_state = GrabPoseDetector.State.GRABBED
+                self.fire(GrabPoseEvents.GRAB)
 
         np_acc = np.array(accelerometer)
         if self.init_acc is None:
@@ -89,17 +76,16 @@ class MovementsDetector(BaseHandler):
 
         self.delta_movement = np.linalg.norm(accelerometer - self.init_acc)
         if self.delta_movement > 0:
-            self.__fire(ICubeBaseEvents.MOVE, args=self.delta_movement)
+            self.fire(GrabPoseEvents.MOVE, args=self.delta_movement)
 
-        if self.icube_state == MovementState.POSED:
+        if self.icube_state == GrabPoseDetector.State.POSED:
             if self.delta_movement > self.grab_tolerance and not self.__icube_posed(touches):
-                self.icube_state = MovementState.GRABBED
-                self.__fire(ICubeBaseEvents.GRAB)
+                self.icube_state = GrabPoseDetector.State.GRABBED
+                self.fire(GrabPoseEvents.GRAB)
 
-        if self.icube_state == MovementState.GRABBED:
+        if self.icube_state == GrabPoseDetector.State.GRABBED:
             if self.__icube_posed(touches):
-                self.icube_state = MovementState.POSED
-                self.__fire(ICubeBaseEvents.POSE)
+                self.icube_state = GrabPoseDetector.State.POSED
+                self.fire(GrabPoseEvents.POSE)
 
         self.init_acc = np_acc
-
