@@ -675,3 +675,4 @@ class MovementsDetector(BaseHandler):
 
 
         self.init_acc = np_acc
+

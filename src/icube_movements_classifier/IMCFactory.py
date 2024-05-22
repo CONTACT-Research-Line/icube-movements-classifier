@@ -1,13 +1,14 @@
 from icube_movements_classifier import MovementsDetector
 from icube_movements_classifier.imc_double_full_touch import DoubleFullTouchDetector
+from icube_movements_classifier.imc_Matb_Movement import MatbMovementDetector
 from icube_movements_classifier.swipes import SwipeDetector
-
 
 class IMCFactory:
     def __init__(self):
         self.available_classifiers = {
             "base": MovementsDetector,
             "double_touch": DoubleFullTouchDetector,
+            "matb": MatbMovementDetector,
             "swipes": SwipeDetector,
         }
 
