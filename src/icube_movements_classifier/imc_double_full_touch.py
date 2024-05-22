@@ -1,6 +1,6 @@
 import enum
 
-from icube_movements_classifier import MovementsDetector
+from icube_movements_classifier import BaseEventHandler
 
 
 class DoubleTouchEvents(enum.Enum):
@@ -10,19 +10,9 @@ class DoubleTouchEvents(enum.Enum):
 CUBE_POSED_FACE = "1111111111111111"
 
 
-class DoubleFullTouchDetector(MovementsDetector):
-    def __init__(self, grab_tolerance=1):
-        super().__init__(grab_tolerance=grab_tolerance)
+class DoubleFullTouchDetector(BaseEventHandler):
 
     def handle(self, quaternions, touches, accelerometer):
-
         if touches.count(CUBE_POSED_FACE) == 2:
-            self.mapping_event_to_callback[DoubleTouchEvents.DOUBLE_TOUCH]()
+            self.fire(DoubleTouchEvents.DOUBLE_TOUCH)
 
-        super().handle(quaternions, touches, accelerometer)
-
-    def set_callback(self, event, callback):
-        if event in DoubleTouchEvents and event in self.mapping_event_to_callback:
-            self.mapping_event_to_callback[event] = callback
-        else:
-            super().set_callback(event, callback)
