@@ -1,1 +1,0 @@
-"I added a new MovementState which I defined TURNED. Within the MovementsDetector class, I added a method that sets the callback function to be executed when the cube is turned; and within the handle method, I inserted an additional if that checks 'icube_state' and 'delta_movement' to determine whether the cube is turned." 

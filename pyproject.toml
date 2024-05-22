@@ -1,6 +1,6 @@
 [project]
 name = "icube-movements-classifier"  # Required
-version = "0.0.301"  # Required
+version = "0.1.11"  # Required
 description = "Python library to compute features related to how the iCube is handled over time"  # Optional
 readme = "README.md" # Optional
 requires-python = ">=3.7"
@@ -53,7 +53,8 @@ classifiers = [  # Optional
 dependencies = [ # Optional
   "numpy",
   "icube@git+https://gitlab.iit.it/cognitiveInteraction/icube",
-  "pandas","pyquaternion"
+  "pandas",
+  "pyquaternion"
 ]
 
 [build-system]

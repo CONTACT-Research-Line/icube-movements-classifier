@@ -41,6 +41,7 @@ class MovementsDetector(BaseHandler):
     @brief a module to detect when the participant grasps the iCube or place it on a flat surface
     @author Dario Pasquali
     """
+
     def __init__(self, grab_tolerance=1):
         """
         @param grab_tolerance: how much being tolerant on classifying an acceleration as grasping
@@ -194,29 +195,8 @@ class MovementsDetector(BaseHandler):
         """
         self.on_grab = on_grab
 
-    def set_on_pose_callback(self, on_pose):
-        """
-        What to do when the cube is posed
-        @param on_pose: function in format event_trigger()
-        @return:
-        """
-        self.on_pose = on_pose
-
-    def set_on_move_callback(self, on_move):
-        """
-        What to do when the cube is moved
-        @param on_move: function in format event_trigger(delta_acceleration)
-        @return:
-        """
-        self.on_move = on_move
-
-    def set_on_turn_callback(self, on_turn):
-        """
-        What to do when the cube is turned
-        @param on_turn: function in format event_trigger(delta_acceleration)
-        @return:
-        """
-        self.on_turn = on_turn
+    def set_callback(self, event, callback):
+        self.mapping_event_to_callback[event] = callback
 
     def set_on_touch_callback(self, on_touch):
         """
@@ -458,12 +438,11 @@ class MovementsDetector(BaseHandler):
         if self.icube_state == MovementState.UNKNOWN:
             if self.__icube_posed(touches):
                 self.icube_state = MovementState.POSED
-                self.on_pose()
-        """"
+                self.__fire(ICubeBaseEvents.POSE)
             else:
                 self.icube_state = MovementState.GRABBED
-                self.on_grab()
-        """
+                self.__fire(ICubeBaseEvents.GRAB)
+
         np_acc = np.array(accelerometer)
 
         if self.init_acc is None:
@@ -471,7 +450,7 @@ class MovementsDetector(BaseHandler):
 
         self.delta_movement = np.linalg.norm(accelerometer - self.init_acc)
         if self.delta_movement > 0:
-            self.on_move(self.delta_movement)
+            self.__fire(ICubeBaseEvents.MOVE, args=self.delta_movement)
 
         """""
         if self.icube_state == MovementState.POSED:
